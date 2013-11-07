@@ -6,6 +6,7 @@
 #include "clandscape.h"
 
 typedef float vec3f[3];
+typedef float* pvec3f;
 
 class CCamera
 {
@@ -16,9 +17,7 @@ public:
 
     void setLandscape(CLandscape *_landscape);
 
-    float getPositionX();
-    float getPositionY();
-    float getPositionZ();
+    pvec3f getPosition();
 
     void keyPressEvent(QKeyEvent *k);
     void mouseMoveEvent(QMouseEvent *me);
@@ -29,10 +28,8 @@ private:
 
     CLandscape *landscape;
 
-    float posX;
-    float posY;
-
-    float rotate;
+    vec3f pos;
+    vec3f vdir;
 
     float max_va;
     float min_va;
@@ -42,8 +39,9 @@ private:
     float min_h;
     float curr_h;
 
-    vec3f v;
-    vec3f e;
+    float rotate;
+
+
 };
 
 #endif // CAMERA_H

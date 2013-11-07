@@ -53,13 +53,9 @@ void MainWindow::paintGL()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    float cam_pos[3];
-    cam_pos[0]=camera.getPositionX();
-    cam_pos[1]=camera.getPositionY();
-    cam_pos[2]=camera.getPositionZ();
     camera.look();
 
-    landscape.draw(cam_pos);
+    landscape.draw(camera.getPosition());
 }
 
 MainWindow::~MainWindow()
