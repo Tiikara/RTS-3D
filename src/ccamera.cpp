@@ -1,9 +1,9 @@
-#include "camera.h"
+#include "ccamera.h"
 #include "math.h"
 
 #define PI 3.14159265f
 
-Camera::Camera():
+CCamera::CCamera():
     rotate(0.0f)
 {
     curr_h = 2.0f;
@@ -16,7 +16,7 @@ Camera::Camera():
     updateAngle();
 }
 
-void Camera::look()
+void CCamera::look()
 {
     float h = landscape->getHeight(posX,posY);
 
@@ -31,27 +31,27 @@ void Camera::look()
     gluLookAt(posX,posY,h+curr_h,e[0],e[1],e[2],0.0,0.0,1.0);
 }
 
-void Camera::setLandscape(Landscape *_landscape)
+void CCamera::setLandscape(CLandscape *_landscape)
 {
     landscape = _landscape;
 }
 
-float Camera::getPositionX()
+float CCamera::getPositionX()
 {
     return posX;
 }
 
-float Camera::getPositionY()
+float CCamera::getPositionY()
 {
     return posY;
 }
 
-float Camera::getPositionZ()
+float CCamera::getPositionZ()
 {
     return landscape->getHeight(posX,posY) + curr_h;
 }
 
-void Camera::keyPressEvent(QKeyEvent *k)
+void CCamera::keyPressEvent(QKeyEvent *k)
 {
     if(k->key() == Qt::Key_Up)
     {
@@ -79,12 +79,12 @@ void Camera::keyPressEvent(QKeyEvent *k)
     if(k->key() == Qt::Key_X) rotate -= 1.25;
 }
 
-void Camera::mouseMoveEvent(QMouseEvent *me)
+void CCamera::mouseMoveEvent(QMouseEvent *me)
 {
 
 }
 
-void Camera::wheelEvent(QWheelEvent *we)
+void CCamera::wheelEvent(QWheelEvent *we)
 {
     float new_h = curr_h-we->delta()*0.0005;
     if(new_h > max_h) curr_h = max_h; else
@@ -95,7 +95,7 @@ void Camera::wheelEvent(QWheelEvent *we)
     updateAngle();
 }
 
-void Camera::updateAngle()
+void CCamera::updateAngle()
 {
     curr_va = min_va + ((max_va-min_va)/(max_h-min_h))*(curr_h - min_h);
 }

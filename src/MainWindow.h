@@ -9,17 +9,16 @@
 #include "math.h"
 #include <QMouseEvent>
 #include <QKeyEvent>
-#include "camera.h"
+#include "ccamera.h"
 
-#include "landscape.h"
+#include "clandscape.h"
 
 class MainWindow : public QGLWidget
 {
 private:
 
-    Landscape landscape;
-
-    Camera camera;
+    CLandscape landscape;
+    CCamera camera;
 protected:
     void initializeGL();
     void genTexture();

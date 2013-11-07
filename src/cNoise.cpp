@@ -1,20 +1,20 @@
-#include "cNoise.h"
+#include "cnoise.h"
 
 #include <QVector3D>
 
 typedef float vec3f[3];
 
-cNoise2D::cNoise2D():
+CNoise2D::CNoise2D():
     tex_ready(false),
     tex(0)
 {}
-void cNoise2D::gen(unsigned int seed)
+void CNoise2D::gen(unsigned int seed)
 {
     tex_ready=false;
     this->seed=seed;
     generate_tables();
 }
-void cNoise2D::generate_tables()
+void CNoise2D::generate_tables()
 {
     srand(seed);
     for (int i=0; i<256; i++) Px[i]=Py[i]=i;
@@ -46,15 +46,15 @@ void cNoise2D::generate_tables()
         G[i][1]*=r;
     }
 }
-float* cNoise2D::grad(int x, int y)
+float* CNoise2D::grad(int x, int y)
 {
     return G[(unsigned char)(Px[(unsigned char)x]+Py[(unsigned char)y])];
 }
-unsigned int cNoise2D::get_seed()
+unsigned int CNoise2D::get_seed()
 {
     return seed;
 }
-float cNoise2D::operator()(float x, float y)
+float CNoise2D::operator()(float x, float y)
 {
     int x0=(int)floor(x);
     int y0=(int)floor(y);
@@ -80,7 +80,7 @@ float cNoise2D::operator()(float x, float y)
 
     return a+S*(b-a);
 }
-float cNoise2D::operator()(float x, float y, float* n)
+float CNoise2D::operator()(float x, float y, float* n)
 {
     int x0=(int)floor(x);
     int y0=(int)floor(y);
@@ -117,7 +117,7 @@ float cNoise2D::operator()(float x, float y, float* n)
 
     return a+Sy*(b-a);
 }
-float cNoise2D::operator()(float x, float y, float SF, float SA, int oct_n, float* n)
+float CNoise2D::operator()(float x, float y, float SF, float SA, int oct_n, float* n)
 {
     float h=0.0f;
     n[0]=0.0f; n[1]=0.0f; n[2]=1.0f;
@@ -134,7 +134,7 @@ float cNoise2D::operator()(float x, float y, float SF, float SA, int oct_n, floa
 }
 
 
-float cNoise2D::getHeight(float x, float y, int an, float A, float FR)
+float CNoise2D::getHeight(float x, float y, int an, float A, float FR)
 {
     float cur_a=A;
     float cur_fr=FR;
@@ -153,7 +153,7 @@ float cNoise2D::getHeight(float x, float y, int an, float A, float FR)
     return h;
 }
 
-void cNoise2D::computeNormals(float x, float y, int an, float A, float FR, float *norm_out)
+void CNoise2D::computeNormals(float x, float y, int an, float A, float FR, float *norm_out)
 {
     float cur_a=A;
     float cur_fr=FR;
@@ -179,7 +179,7 @@ void cNoise2D::computeNormals(float x, float y, int an, float A, float FR, float
     norm_out[2] = norm.z();
 }
 
-void cNoise2D::setCorrFunc(float start_kf, float grow_pow, float x0, float y0, float x1, float y1)
+void CNoise2D::setCorrFunc(float start_kf, float grow_pow, float x0, float y0, float x1, float y1)
 {
     nset.start_kf = start_kf;
     nset.grow_pow = grow_pow;
@@ -190,7 +190,7 @@ void cNoise2D::setCorrFunc(float start_kf, float grow_pow, float x0, float y0, f
     nset.compute();
 }
 
-void cNoise2D::sendUValuesToShader(QGLShaderProgram &shader_prog)
+void CNoise2D::sendUValuesToShader(QGLShaderProgram &shader_prog)
 {
     shader_prog.setUniformValue("start_kf",nset.start_kf);
     shader_prog.setUniformValue("grow_pow",nset.grow_pow);
@@ -199,7 +199,7 @@ void cNoise2D::sendUValuesToShader(QGLShaderProgram &shader_prog)
     shader_prog.setUniformValue("curve1",nset.p1[0],nset.p1[1],nset.p1[2]);
     shader_prog.setUniformValue("kb_line",nset.k,nset.b);
 }
-void cNoise2D::enable_texture()
+void CNoise2D::enable_texture()
 {
     if (!tex_ready) //Нужно сначала создать текстуру
     {
@@ -223,12 +223,12 @@ void cNoise2D::enable_texture()
     else glBindTexture(GL_TEXTURE_1D,tex);
     glEnable(GL_TEXTURE_1D);
 }
-void cNoise2D::disable_texture()
+void CNoise2D::disable_texture()
 {
     glBindTexture(GL_TEXTURE_1D,0);
     glDisable(GL_TEXTURE_2D);
 }
-void cNoise2D::free_texture()
+void CNoise2D::free_texture()
 {
     if (tex) glDeleteTextures(1,&tex);
     tex_ready=false;

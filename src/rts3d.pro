@@ -21,16 +21,16 @@ UI_DIR = ../build/uic/
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    cNoise.cpp \
-    landscape.cpp \
-    camera.cpp \
-    gl_ext/libExt.cpp
+    gl_ext/libExt.cpp \
+    cnoise.cpp \
+    clandscape.cpp \
+    ccamera.cpp
 
 HEADERS  += MainWindow.h \
-    cNoise.h \
-    landscape.h \
-    camera.h \
-    gl_ext/libExt.h
+    gl_ext/libExt.h \
+    cnoise.h \
+    clandscape.h \
+    ccamera.h
 
 OTHER_FILES += \
     surf_vert.vert \

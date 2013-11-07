@@ -3,18 +3,18 @@
 
 #include "GL/glu.h"
 #include "gl_ext/libExt.h"
-#include "landscape.h"
+#include "clandscape.h"
 
 typedef float vec3f[3];
 
-class Camera
+class CCamera
 {
 public:
-    Camera();
+    CCamera();
 
     void look();
 
-    void setLandscape(Landscape *_landscape);
+    void setLandscape(CLandscape *_landscape);
 
     float getPositionX();
     float getPositionY();
@@ -27,7 +27,7 @@ private:
 
     void updateAngle();
 
-    Landscape *landscape;
+    CLandscape *landscape;
 
     float posX;
     float posY;

@@ -54,7 +54,7 @@ struct noise_settings
     }
 };
 
-class cNoise2D
+class CNoise2D
 {
     noise_settings nset;
 
@@ -68,7 +68,7 @@ class cNoise2D
     void generate_tables();
     float* grad(int x, int y);
 public:
-    cNoise2D();
+    CNoise2D();
     void gen(unsigned int seed);
     unsigned int get_seed();
     float operator()(float x, float y,float* n);

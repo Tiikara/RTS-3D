@@ -6,18 +6,16 @@
 #include "GL/glu.h"
 #include "gl_ext/libExt.h"
 #include "math.h"
-#include "cNoise.h"
+#include "cnoise.h"
 #include <QVector3D>
 
 typedef float vec3f[3];
 typedef float quad[4][3];
 
-class Landscape
+class CLandscape
 {
 public:
-    Landscape();
-
-    enum E_SURFACETYPE { LAND, MOUNT, GRASS };
+    CLandscape();
 
     void initializeGL();
 
@@ -52,7 +50,7 @@ private:
 
     GLuint tex_id;
     QGLShaderProgram shader_prog;
-    cNoise2D noise;
+    CNoise2D noise;
 
     void genTexture();
 

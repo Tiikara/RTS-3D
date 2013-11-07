@@ -1,14 +1,14 @@
-#include "landscape.h"
+#include "clandscape.h"
 
 #include <QSettings>
 
 #include <time.h>
 
-Landscape::Landscape():
+CLandscape::CLandscape():
     fSeaLevel(0.0)
 {}
 
-void Landscape::initializeGL()
+void CLandscape::initializeGL()
 {
     mesh.generate(fWidth,fHeight,fSide);
     noise.gen(uiSeed);
@@ -27,7 +27,7 @@ void Landscape::initializeGL()
     genTexture();
 }
 
-void Landscape::genTexture()
+void CLandscape::genTexture()
 {
     const int n=3;
     unsigned char* tex;
@@ -76,7 +76,7 @@ void Landscape::genTexture()
     delete[] tex;
 }
 
-void Landscape::loadSettings(const char *fileName)
+void CLandscape::loadSettings(const char *fileName)
 {
     QSettings settings(fileName, QSettings::IniFormat);
 
@@ -101,22 +101,22 @@ void Landscape::loadSettings(const char *fileName)
     settings.endGroup();
 }
 
-void Landscape::generateLandscape()
+void CLandscape::generateLandscape()
 {
     noise.gen(time(NULL));
 }
 
-float Landscape::getHeight(float x, float y)
+float CLandscape::getHeight(float x, float y)
 {
     return noise.getHeight(x,y,10,1.5f,0.5);
 }
 
-void Landscape::getNormal(float x, float y, vec3f norm_out)
+void CLandscape::getNormal(float x, float y, vec3f norm_out)
 {
     noise.computeNormals(x,y,10,1.5f,0.5,norm_out);
 }
 
-void Landscape::draw(float *cam_pos)
+void CLandscape::draw(float *cam_pos)
 {
     glActiveTextureARB(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D_EXT,tex_id);
@@ -148,7 +148,7 @@ void Landscape::draw(float *cam_pos)
 }
 
 
-void Landscape::cSurfaceMesh::generate(float w, float h, float side)
+void CLandscape::cSurfaceMesh::generate(float w, float h, float side)
 {
     int ws=(int)w/side;
     int hs=(int)h/side;
@@ -190,7 +190,7 @@ void Landscape::cSurfaceMesh::generate(float w, float h, float side)
     delete[] q;
 }
 
-void Landscape::cSurfaceMesh::draw()
+void CLandscape::cSurfaceMesh::draw()
 {
     glEnableClientState( GL_VERTEX_ARRAY );
     glBindBufferARB(GL_ARRAY_BUFFER, vId);
