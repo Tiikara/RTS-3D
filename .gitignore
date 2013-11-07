@@ -1,0 +1,8 @@
+*.exe
+*.[oa]
+*~
+build/
+Makefile
+Makefile.Debug
+Makefile.Release
+rts3d.pro.user
