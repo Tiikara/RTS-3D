@@ -44,6 +44,8 @@ private:
     float fWidth;
     float fHeight;
     float fSide;
+    int layer_c;
+    float flayer_c;
     // ---
 
     UINT uiSeed;

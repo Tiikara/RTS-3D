@@ -13,8 +13,8 @@ void CLandscape::initializeGL()
     mesh.generate(fWidth,fHeight,fSide);
     noise.gen(uiSeed);
 
-    shader_prog.addShaderFromSourceFile(QGLShader::Vertex,":/shaders/surf_vert.vert");
-    shader_prog.addShaderFromSourceFile(QGLShader::Fragment,":/shaders/surf_frag.frag");
+    shader_prog.addShaderFromSourceFile(QGLShader::Vertex,"surf_vert.vert");
+    shader_prog.addShaderFromSourceFile(QGLShader::Fragment,"surf_frag.frag");
 
     shader_prog.link(); // линкуем шейдеры
     shader_prog.bind();
@@ -22,6 +22,8 @@ void CLandscape::initializeGL()
     shader_prog.setUniformValue("size",1.5f);
     shader_prog.setUniformValue("tex",0);
     shader_prog.setUniformValue("noise_table",1);
+    shader_prog.setUniformValue("flayerC",flayer_c);
+    shader_prog.setUniformValue("layerC",layer_c);
     shader_prog.release();
 
     genTexture();
@@ -29,7 +31,7 @@ void CLandscape::initializeGL()
 
 void CLandscape::genTexture()
 {
-    const int n=3;
+    const int n=layer_c;
     unsigned char* tex;
     char fname[256];
     int w;
@@ -37,12 +39,12 @@ void CLandscape::genTexture()
     int d=n;
 
     int id=0;
-    for (int i=0; i<3; i++)
+    for (int i=0; i<layer_c; i++)
     {
         sprintf(fname,"tex/layer_%d.jpg",i);
         QImage img;
         img.load(QString(fname));
-        if (i==0) //Размер ещё не был известен, память не выделена
+        if (i==0) //� азмер ещё не был известен, память не выделена
         {
             w=img.width();
             h=img.height();
@@ -98,6 +100,11 @@ void CLandscape::loadSettings(const char *fileName)
                        settings.value("y0").toFloat(),
                        settings.value("x1").toFloat(),
                        settings.value("y1").toFloat());
+    settings.endGroup();
+
+    settings.beginGroup("Layer_c");
+    flayer_c = settings.value("flayer_c").toFloat();
+    layer_c = settings.value("layer_c").toInt();
     settings.endGroup();
 }
 
