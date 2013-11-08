@@ -13,8 +13,8 @@ void CLandscape::initializeGL()
     mesh.generate(fWidth,fHeight,fSide);
     noise.gen(uiSeed);
 
-    shader_prog.addShaderFromSourceFile(QGLShader::Vertex,"surf_vert.vert");
-    shader_prog.addShaderFromSourceFile(QGLShader::Fragment,"surf_frag.frag");
+    shader_prog.addShaderFromSourceFile(QGLShader::Vertex,":/shaders/surf_vert.vert");
+    shader_prog.addShaderFromSourceFile(QGLShader::Fragment,":/shaders/surf_frag.frag");
 
     shader_prog.link(); // линкуем шейдеры
     shader_prog.bind();
