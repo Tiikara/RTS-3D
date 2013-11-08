@@ -27,7 +27,7 @@ public:
 
     void keyPressEvent(QKeyEvent *k);
     void keyReleaseEvent(QKeyEvent *k);
-    void mouseMoveEvent(QMouseEvent *me);
+    void mouseMoveEvent(QMouseEvent *me, float width);
     void wheelEvent(QWheelEvent *we);
 private:
 
@@ -51,6 +51,8 @@ private:
     float moveSpeed;
 
     bool pressedKeys[4];
+
+    float old_mx;
 };
 
 #endif // CAMERA_H

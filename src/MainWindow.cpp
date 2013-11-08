@@ -29,7 +29,7 @@ void MainWindow::initializeGL()
 
  void MainWindow::mouseMoveEvent(QMouseEvent *me)
  {
-
+     camera.mouseMoveEvent(me,width());
  }
 
  void MainWindow::wheelEvent(QWheelEvent *we)

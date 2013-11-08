@@ -12,7 +12,8 @@ CCamera::CCamera():
     min_h(1.5f),
     curr_h(2.0f),
     rotate(0.0f),
-    moveSpeed(0.05f)
+    moveSpeed(0.05f),
+    old_mx(-100)
 {
     for(int i=0;i<3;i++)
         pos[i] = 0.0f;
@@ -57,9 +58,16 @@ void CCamera::keyReleaseEvent(QKeyEvent *k)
     if(k->key() == Qt::Key_Right) pressedKeys[Key_Right] = false;
 }
 
-void CCamera::mouseMoveEvent(QMouseEvent *)
+void CCamera::mouseMoveEvent(QMouseEvent *me, float width)
 {
-
+    int xp=me->x();
+    if (old_mx!=-100 && old_my!=-100)
+    {
+        if (me->buttons()==Qt::MiddleButton)
+            rotate+=((xp-old_mx)/width)*90.0f;
+    }
+    old_mx=xp;
+    old_my=yp;
 }
 
 void CCamera::wheelEvent(QWheelEvent *we)
