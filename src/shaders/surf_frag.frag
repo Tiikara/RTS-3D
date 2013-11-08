@@ -16,6 +16,7 @@ uniform vec2 kb_line;
 
 float corr_func(in float x)
 {
+    float g;
     x*=1.41421;
     if (x<x_val.x) return x*x*curve0[0]+x*curve0[1]+curve0[2];
     if (x<x_val.y) return x*kb_line.x+kb_line.y;

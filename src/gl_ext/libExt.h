@@ -9,7 +9,7 @@
 
 #ifdef  _WIN32
     #include    <windows.h>
-	#pragma warning (disable:4996)
+    //#pragma warning (disable:4996)
 #else
     #include	<stdint.h>
     #define GLX_GLXEXT_LEGACY

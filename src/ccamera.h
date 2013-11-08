@@ -1,6 +1,11 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+// Qt 4.7.4
+#include <QGLShaderProgram>
+#include <QGLWidget>
+//---
+
 #include "GL/glu.h"
 #include "gl_ext/libExt.h"
 #include "clandscape.h"
@@ -14,12 +19,14 @@ public:
     CCamera();
 
     void look();
+    void update();
 
     void setLandscape(CLandscape *_landscape);
 
     pvec3f getPosition();
 
     void keyPressEvent(QKeyEvent *k);
+    void keyReleaseEvent(QKeyEvent *k);
     void mouseMoveEvent(QMouseEvent *me);
     void wheelEvent(QWheelEvent *we);
 private:
@@ -41,7 +48,9 @@ private:
 
     float rotate;
 
+    float moveSpeed;
 
+    bool pressedKeys[4];
 };
 
 #endif // CAMERA_H

@@ -33,5 +33,8 @@ HEADERS  += MainWindow.h \
     ccamera.h
 
 OTHER_FILES += \
-    surf_vert.vert \
-    surf_frag.frag
+    shaders/surf_vert.vert \
+    shaders/surf_frag.frag
+
+RESOURCES += \
+    shaders.qrc

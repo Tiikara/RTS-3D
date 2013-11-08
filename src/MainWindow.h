@@ -24,9 +24,11 @@ protected:
     void genTexture();
     void resizeGL(int w, int h);
     void paintGL();
+    void updateLogic();
     void mouseMoveEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *we);
     void keyPressEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *);
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();

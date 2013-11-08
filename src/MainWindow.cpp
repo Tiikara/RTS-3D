@@ -1,11 +1,18 @@
 #include "MainWindow.h"
 
+#include <QTimer>
+
 MainWindow::MainWindow(QWidget *parent)
     : QGLWidget(parent)
 {
     setMouseTracking(true);
 
     camera.setLandscape(&landscape);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateGL()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateLogic()));
+    timer->start(16);
 }
 void MainWindow::initializeGL()
 {
@@ -28,7 +35,6 @@ void MainWindow::initializeGL()
  void MainWindow::wheelEvent(QWheelEvent *we)
  {
      camera.wheelEvent(we);
-     updateGL();
  }
  void MainWindow::keyPressEvent(QKeyEvent *k)
  {
@@ -36,7 +42,11 @@ void MainWindow::initializeGL()
          landscape.generateLandscape();
 
      camera.keyPressEvent(k);
-     updateGL();
+ }
+
+ void MainWindow::keyReleaseEvent(QKeyEvent *k)
+ {
+    camera.keyReleaseEvent(k);
  }
 
 void MainWindow::resizeGL(int w, int h)
@@ -56,6 +66,11 @@ void MainWindow::paintGL()
     camera.look();
 
     landscape.draw(camera.getPosition());
+}
+
+void MainWindow::updateLogic()
+{
+    camera.update();
 }
 
 MainWindow::~MainWindow()
