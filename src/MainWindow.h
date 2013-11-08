@@ -15,6 +15,8 @@
 
 class MainWindow : public QGLWidget
 {
+    Q_OBJECT
+
 private:
 
     CLandscape landscape;
@@ -24,11 +26,12 @@ protected:
     void genTexture();
     void resizeGL(int w, int h);
     void paintGL();
-    void updateLogic();
     void mouseMoveEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *we);
     void keyPressEvent(QKeyEvent *);
     void keyReleaseEvent(QKeyEvent *);
+protected slots:
+    void updateLogic();
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
