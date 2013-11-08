@@ -61,13 +61,12 @@ void CCamera::keyReleaseEvent(QKeyEvent *k)
 void CCamera::mouseMoveEvent(QMouseEvent *me, float width)
 {
     int xp=me->x();
-    if (old_mx!=-100 && old_my!=-100)
+    if (old_mx!=-100)
     {
         if (me->buttons()==Qt::MiddleButton)
             rotate+=((xp-old_mx)/width)*90.0f;
     }
     old_mx=xp;
-    old_my=yp;
 }
 
 void CCamera::wheelEvent(QWheelEvent *we)
