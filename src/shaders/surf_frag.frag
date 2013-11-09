@@ -138,83 +138,68 @@ float NoiseSum(in int an, in float A, in float FR, in float x, in float y, out v
 
 void main(void)
 {
-    float H=h+NoiseSum(1, size, 0.009, planar_c.y, planar_c.x);
+    float H=h+NoiseSum(5, size, 0.009, planar_c.y, planar_c.x);
 
     vec3 N=normalize(n);
     vec3 V=normalize(v);
     NoiseSum(10,size,0.5,planar_c.x,planar_c.y,N);
     vec3 L=normalize(l);
 
-
-
-    //float b[10];//!!
-    float t[10];//!!
-    vec4 c[6];//!!
-
+    float t[5];
+    vec4 c[5];
+    int ln1;
+    int ln2;
+    int ln3;
+    float mingr2;
+    float maxgr2;
+    float mingr1;
+    float maxgr1;
     float lk=max(dot(N,L),0.0);
-
     vec3 R=-reflect(L,N);
     float spec_k=pow(max(dot(R,V),0.0),8.0);
-
-
-
-
     vec2 tex_c=vec2(planar_c.x/0.75,planar_c.y/0.5);
-
     float dint=0.2*size;
-
     vec4 col;
 
-//    b[0]=-0.5;
-//    b[1]=9;
-//    b[2]=0.9;
+    t[0]=-10.0;
+    t[1]=-0.6;
+    t[2]=0.0;
+    t[3]=0.7;
+    t[4]=1.3;
+    t[5]=10.0;
 
-    t[0]=-0.7-0.3*size;
-    t[1]=-0.7+0.3*size;
-    t[2]=-0.4-0.3*size;
-    t[3]=-0.4+0.3*size;
-    t[4]=0.3-0.3*size;
-    t[5]=0.3+0.3*size;
-    t[6]=0.6+0.3*size;
-    t[7]=0.6+0.3*size;
-
-
-    int k=0;
-
+    float lm=1.0/flayerC;
     for(int j=0;j<layerC;j++)
     {
-
-//        b[j]=((j*(flayerC-1.0)/10.0)+(((flayerC-1.0)/10.0)*(flayerC-1.0)))*2.0*size-size;
-        float corz=((j*(10.0/flayerC))+(0.5*(10.0/flayerC)))/10.0;
+        float corz=((j*lm)+(0.5*lm));
         c[j]=texture3D(tex,vec3(tex_c.x,tex_c.y,corz));
-//        t[k]=b[j]-dint;//t[k]=b[j]-dint;//t[j*2]=b[j]-dint;
-//        t[k=k+1]=b[j]+dint;//t[k=k+1]=b[j]+dint;//t[(j*2)+1]=b[j]+dint;
-        k++;
     }
-    for(int i=2;i<layerC+1;i++)//проблема скорее всего в этом цикле
+
+    int k=0;
+    bool g=false;
+    while(!g)
     {
-
-        if((H<=t[2]))//&&(i==2)
+        if(H>t[k+1])
         {
-            col=smoothstep(t[0],t[2],H)*c[1]+(1.0-smoothstep(t[0],t[2],H))*c[0];
-            break;
+           k++;
         }
-        if((H>=t[i])&&(H<=t[i+1])&&(i%2==0))//&&(i!=maxG)
+        else
         {
-            int j=i/2;
-            col=smoothstep(t[i],t[i+1],H)*c[j+1]+(1.0-smoothstep(t[i],t[i+1],H))*c[j];
-            break;
+           ln1=k;
+           g=true;
         }
-        if((H>=t[i])&&(i==layerC))
-        {
-            int j=i/2;
-            col=smoothstep(t[i],t[i+1],H)*c[j+2]+(1.0-smoothstep(t[i],t[i+1],H))*c[j+1];
-            break;
-        }
-
     }
-
-
+    ln2=ln1+1;
+    ln3=ln1-1;
+    float cr=(t[ln1]+t[ln2])*0.5;
+    if(H>cr)
+    {
+        col=smoothstep(t[ln2]-dint,t[ln2]+dint,H)*c[ln2]+(1.0-smoothstep(t[ln2]-dint,t[ln2]+dint,H))*c[ln1];
+    }
+    else
+    {
+        col=smoothstep(t[ln1]-dint,t[ln1]+dint,H)*c[ln1]+(1.0-smoothstep(t[ln1]-dint,t[ln1]+dint,H))*c[ln3];
+    }
 
     vec4 fcol=col*lk+spec_k*vec4(0.3);
     gl_FragColor = vec4(fcol.rgb,1.0);
