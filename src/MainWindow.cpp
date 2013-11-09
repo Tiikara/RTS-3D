@@ -25,6 +25,8 @@ void MainWindow::initializeGL()
 
     landscape.loadSettings("landscape.ini");
     landscape.initializeGL();
+
+    model.loadFromFile("boy_3ds.3d", "form_front.jpg");
 }
 
  void MainWindow::mouseMoveEvent(QMouseEvent *me)
@@ -64,8 +66,10 @@ void MainWindow::paintGL()
     glLoadIdentity();
 
     camera.look();
-
     landscape.draw(camera.getPosition());
+    glScalef(0.001f,0.001f,0.001f);
+    glTranslatef(0,0,900);
+    model.draw();
 }
 
 void MainWindow::updateLogic()

@@ -152,6 +152,7 @@ void CLandscape::draw(float *cam_pos)
     glVertex3f(-5.0,5.0,fSeaLevel);
 
     glEnd();
+    glColor4f(1,1,1,1);
 }
 
 

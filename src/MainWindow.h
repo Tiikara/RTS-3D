@@ -12,6 +12,7 @@
 #include "ccamera.h"
 
 #include "clandscape.h"
+#include "cmodel.h"
 
 class MainWindow : public QGLWidget
 {
@@ -21,6 +22,8 @@ private:
 
     CLandscape landscape;
     CCamera camera;
+
+    CModel model;
 protected:
     void initializeGL();
     void genTexture();

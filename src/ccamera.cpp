@@ -67,6 +67,7 @@ void CCamera::mouseMoveEvent(QMouseEvent *me, float width)
             rotate+=((xp-old_mx)/width)*90.0f;
     }
     old_mx=xp;
+
 }
 
 void CCamera::wheelEvent(QWheelEvent *we)

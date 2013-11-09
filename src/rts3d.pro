@@ -24,13 +24,15 @@ SOURCES += main.cpp\
     gl_ext/libExt.cpp \
     cnoise.cpp \
     clandscape.cpp \
-    ccamera.cpp
+    ccamera.cpp \
+    cmodel.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
     cnoise.h \
     clandscape.h \
-    ccamera.h
+    ccamera.h \
+    cmodel.h
 
 OTHER_FILES += \
     shaders/surf_vert.vert \

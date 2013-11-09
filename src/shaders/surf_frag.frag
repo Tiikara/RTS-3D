@@ -145,7 +145,7 @@ void main(void)
     NoiseSum(10,size,0.5,planar_c.x,planar_c.y,N);
     vec3 L=normalize(l);
 
-    float t[5];
+    float t[6];
     vec4 c[5];
     int ln1;
     int ln2;
