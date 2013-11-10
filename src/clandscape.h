@@ -8,6 +8,7 @@
 #include "math.h"
 #include "cnoise.h"
 #include <QVector3D>
+#include "cwater.h"
 
 typedef float vec3f[3];
 typedef float quad[4][3];
@@ -26,6 +27,7 @@ public:
     void getNormal(float x, float y, vec3f norm_out);
 
     void draw(float *positionCamera);
+    void update();
 private:
     struct cSurfaceMesh
     {
@@ -38,7 +40,7 @@ private:
 
     cSurfaceMesh mesh;
 
-    float fSeaLevel;
+    CWater water;
 
     // settings
     float fWidth;

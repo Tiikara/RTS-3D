@@ -1,6 +1,7 @@
 #include "cmodel.h"
 #include <stdio.h>
 
+#include <QGLContext>
 #include <QImage>
 typedef unsigned int ui;
 
@@ -10,7 +11,9 @@ CModel::CModel()
 
 void CModel::loadFromFile(const char *fileName, const char *fileNameTexture)
 {
-    loadTexture(fileNameTexture);
+    QImage img(fileNameTexture);
+    QGLContext *context = const_cast<QGLContext*>(QGLContext::currentContext());
+    tId=context->bindTexture(img);
 
     FILE *pFile = fopen (fileName , "rb");
 
@@ -82,38 +85,4 @@ void CModel::draw()
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
-}
-
-void CModel::loadTexture(const char *fileName)
-{
-    unsigned char* tex;
-    int w;
-    int h;
-
-    QImage img;
-    img.load(QString(fileName));
-
-    w=img.width();
-    h=img.height();
-    tex=new unsigned char[3*w*h];
-
-    QRgb color;
-    for (int i=h-1, id=0; i>=0; i--)
-    {
-        for (int j=w-1; j>=0; j--)
-        {
-            color=img.pixel(j,i);
-            tex[id++]=qRed(color);
-            tex[id++]=qGreen(color);
-            tex[id++]=qBlue(color);
-        }
-    }
-
-    glGenTextures(1,&tId);
-    glBindTexture(GL_TEXTURE_2D,tId);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
-                 GL_RGB, GL_UNSIGNED_BYTE, tex);
-    delete[] tex;
 }

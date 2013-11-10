@@ -3,9 +3,9 @@
 #include <QSettings>
 
 #include <time.h>
+#include <algorithm>
 
-CLandscape::CLandscape():
-    fSeaLevel(0.0)
+CLandscape::CLandscape()
 {}
 
 void CLandscape::initializeGL()
@@ -13,10 +13,10 @@ void CLandscape::initializeGL()
     mesh.generate(fWidth,fHeight,fSide);
     noise.gen(uiSeed);
 
-    shader_prog.addShaderFromSourceFile(QGLShader::Vertex,":/shaders/surf_vert.vert");
-    shader_prog.addShaderFromSourceFile(QGLShader::Fragment,":/shaders/surf_frag.frag");
+    shader_prog.addShaderFromSourceFile(QGLShader::Vertex,":/shaders/surface.vert");
+    shader_prog.addShaderFromSourceFile(QGLShader::Fragment,":/shaders/surface.frag");
 
-    shader_prog.link(); // линкуем шейдеры
+    shader_prog.link();
     shader_prog.bind();
     shader_prog.setUniformValue("freq",5.0f);
     shader_prog.setUniformValue("size",1.5f);
@@ -27,6 +27,8 @@ void CLandscape::initializeGL()
     shader_prog.release();
 
     genTexture();
+
+    water.initializeGL();
 }
 
 void CLandscape::genTexture()
@@ -44,13 +46,13 @@ void CLandscape::genTexture()
         sprintf(fname,"tex/layer_%d.jpg",i);
         QImage img;
         img.load(QString(fname));
-        if (i==0) //� азмер ещё не был известен, память не выделена
+        if (i==0)
         {
             w=img.width();
             h=img.height();
             tex=new unsigned char[3*w*h*d];
         }
-        //Записываем значения цветов в tex
+
         QRgb color;
         for (int i=0; i<h; i++)
         {
@@ -63,18 +65,14 @@ void CLandscape::genTexture()
             }
         }
     }
-    //Генерируем openGL текстуру
+
     glGenTextures(1,&tex_id);
     glBindTexture(GL_TEXTURE_3D_EXT,tex_id);
-    //Обязательные параметры фильтрации
     glTexParameteri(GL_TEXTURE_3D_EXT,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D_EXT,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    //Чтобы текстура тайлилась по x и y:
     glTexParameteri(GL_TEXTURE_3D_EXT,GL_TEXTURE_WRAP_S,GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D_EXT,GL_TEXTURE_WRAP_T,GL_REPEAT);
-    //Загружаем изображение в видеопамять
     glTexImage3DEXT(GL_TEXTURE_3D_EXT,0,GL_RGB,w,h,d,0,GL_RGB,GL_UNSIGNED_BYTE,tex);
-    //Больше tex не нужен
     delete[] tex;
 }
 
@@ -83,7 +81,7 @@ void CLandscape::loadSettings(const char *fileName)
     QSettings settings(fileName, QSettings::IniFormat);
 
     settings.beginGroup("Global");
-    fSeaLevel = settings.value("SeaLevel").toFloat();
+    water.setSeaLevel(settings.value("SeaLevel").toFloat());
     settings.endGroup();
 
     settings.beginGroup("Size");
@@ -115,7 +113,8 @@ void CLandscape::generateLandscape()
 
 float CLandscape::getHeight(float x, float y)
 {
-    return noise.getHeight(x,y,10,1.5f,0.5);
+    return std::max(water.getSeaLevel(),
+                    noise.getHeight(x,y,10,1.5f,0.5));
 }
 
 void CLandscape::getNormal(float x, float y, vec3f norm_out)
@@ -143,16 +142,13 @@ void CLandscape::draw(float *cam_pos)
     glDisable(GL_TEXTURE_3D_EXT);
     glBindTexture(GL_TEXTURE_3D_EXT,0);
 
-    glColor4f(0.0,0.4,0.8,0.8);
-    glBegin(GL_QUADS);
 
-    glVertex3f(-5.0,-5.0,fSeaLevel);
-    glVertex3f(5.0,-5.0,fSeaLevel);
-    glVertex3f(5.0,5.0,fSeaLevel);
-    glVertex3f(-5.0,5.0,fSeaLevel);
+    water.draw(cam_pos);
+}
 
-    glEnd();
-    glColor4f(1,1,1,1);
+void CLandscape::update()
+{
+    water.update();
 }
 
 

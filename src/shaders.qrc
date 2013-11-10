@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>shaders/surf_frag.frag</file>
-        <file>shaders/surf_vert.vert</file>
+        <file>shaders/water.frag</file>
+        <file>shaders/water.vert</file>
+        <file>shaders/surface.frag</file>
+        <file>shaders/surface.vert</file>
     </qresource>
 </RCC>

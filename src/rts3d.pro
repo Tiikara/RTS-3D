@@ -25,18 +25,22 @@ SOURCES += main.cpp\
     cnoise.cpp \
     clandscape.cpp \
     ccamera.cpp \
-    cmodel.cpp
+    cmodel.cpp \
+    cwater.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
     cnoise.h \
     clandscape.h \
     ccamera.h \
-    cmodel.h
+    cmodel.h \
+    cwater.h
 
 OTHER_FILES += \
-    shaders/surf_vert.vert \
-    shaders/surf_frag.frag
+    shaders/water.vert \
+    shaders/water.frag \
+    shaders/surface.frag \
+    shaders/surface.vert
 
 RESOURCES += \
     shaders.qrc

@@ -13,8 +13,6 @@ public:
 
     void draw();
 private:
-    void loadTexture(const char*fileName);
-
     GLuint vId;
     GLuint iId;
     GLuint tId;

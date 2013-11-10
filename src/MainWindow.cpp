@@ -75,6 +75,7 @@ void MainWindow::paintGL()
 void MainWindow::updateLogic()
 {
     camera.update();
+    landscape.update();
 }
 
 MainWindow::~MainWindow()
