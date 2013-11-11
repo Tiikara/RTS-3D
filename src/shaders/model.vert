@@ -14,12 +14,14 @@ void main(void)
 {
     vec3 n_normal=normalize(gl_Normal);
 
-    v_vertex = gl_Vertex;
+    vec4 vertex4 = gl_ModelViewProjectionMatrix * gl_Vertex;
+
+    v_vertex = vec3(vertex4);
 
     v_normal=n_normal;
     v_color=gl_Color;
 
     texcoord = vec2(gl_MultiTexCoord0);
 
-    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+    gl_Position = vertex4;
 }
