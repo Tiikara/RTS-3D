@@ -1,7 +1,7 @@
 #ifndef CMODEL_H
 #define CMODEL_H
 
-#include <qopengl.h>
+#include <QGLShaderProgram>
 #include "gl_ext/libExt.h"
 
 class CModel
@@ -11,8 +11,12 @@ public:
 
     void loadFromFile(const char *fileName, const char *fileNameTexture);
 
-    void draw();
+    void initializeGL();
+
+    void draw(float *cam_pos);
 private:
+    QGLShaderProgram model_shader;
+
     GLuint vId;
     GLuint iId;
     GLuint tId;

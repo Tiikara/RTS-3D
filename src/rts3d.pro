@@ -40,7 +40,9 @@ OTHER_FILES += \
     shaders/water.vert \
     shaders/water.frag \
     shaders/surface.frag \
-    shaders/surface.vert
+    shaders/surface.vert \
+    shaders/model.vert \
+    shaders/model.frag
 
 RESOURCES += \
     shaders.qrc

@@ -4,5 +4,7 @@
         <file>shaders/water.vert</file>
         <file>shaders/surface.frag</file>
         <file>shaders/surface.vert</file>
+        <file>shaders/model.frag</file>
+        <file>shaders/model.vert</file>
     </qresource>
 </RCC>

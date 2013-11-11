@@ -58,11 +58,25 @@ void CModel::loadFromFile(const char *fileName, const char *fileNameTexture)
 
     iCount = countIndex*3;
 
-    return;
+    delete[] buffer;
 }
 
-void CModel::draw()
+void CModel::initializeGL()
 {
+    model_shader.addShaderFromSourceFile(QGLShader::Vertex,":/shaders/model.vert");
+    model_shader.addShaderFromSourceFile(QGLShader::Fragment,":/shaders/model.frag");
+    model_shader.link();
+    model_shader.bind();
+    model_shader.setUniformValue("u_k_diffuse",0.8f);
+    model_shader.setUniformValue("u_k_specular",0.4f);
+    model_shader.release();
+}
+
+void CModel::draw(float *cam_pos)
+{
+    model_shader.bind();
+    model_shader.setUniformValue("u_camera",cam_pos[0],cam_pos[1],cam_pos[2]);
+
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tId);
 
@@ -85,4 +99,6 @@ void CModel::draw()
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
+
+    model_shader.release();
 }
