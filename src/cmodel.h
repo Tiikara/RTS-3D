@@ -4,6 +4,8 @@
 #include <QGLShaderProgram>
 #include "gl_ext/libExt.h"
 
+typedef unsigned int ui;
+
 class CModel
 {
 public:
@@ -17,11 +19,17 @@ public:
 private:
     QGLShaderProgram model_shader;
 
-    GLuint vId;
+    int vertexLocation;
+    int normalLocation;
+
+    ui countFrames;
+    float fCurrentFrame;
+
+    GLuint *vId;
+    GLuint *nId;
     GLuint iId;
     GLuint tId;
     GLuint tcId;
-    GLuint nId;
     GLsizei iCount;
 };
 

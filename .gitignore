@@ -5,6 +5,7 @@ build/
 Makefile
 Makefile.Debug
 Makefile.Release
+*.autosave
 *.Debug
 *.Release
 rts3d.pro.user

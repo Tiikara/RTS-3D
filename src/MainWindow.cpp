@@ -27,7 +27,7 @@ void MainWindow::initializeGL()
     landscape.initializeGL();
 
     model.initializeGL();
-    model.loadFromFile("boy_3ds.3d", "form_front.jpg");
+    model.loadFromFile("boy_walk.3d", "form_front.tga");
 }
 
  void MainWindow::mouseMoveEvent(QMouseEvent *me)

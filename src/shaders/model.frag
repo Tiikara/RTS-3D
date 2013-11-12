@@ -20,15 +20,15 @@ void main(void)
 
     vec3 lookvector = normalize(u_camera - v_vertex);
 
-    float diffuse = u_k_diffuse * max(dot(n_normal, lightvector), 0.0);
+    float diffuse = texture2D(text,texcoord).a * max(dot(n_normal, lightvector), 0.0);
 
     vec3 reflectvector = reflect(-lightvector, n_normal);
 
-    float specular = u_k_specular * pow( max(dot(lookvector,reflectvector),0.0), 8.0 );
+    float specular = texture2D(text,texcoord).a * pow( max(dot(lookvector,reflectvector),0.0), 8.0 );
 
     vec4 diffColor = vec4(1.0,1.0,1.0,1.0);
     vec4 specColor = vec4(1.0,1.0,1.0,1.0);
 
-    gl_FragColor = diffuse*diffColor+specular*specColor+texture2D(text,texcoord);
+    gl_FragColor = diffuse*diffColor+specular*specColor+vec4(texture2D(text,texcoord).rgb, 1.0);
 
 }
