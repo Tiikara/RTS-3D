@@ -12,16 +12,14 @@ varying vec2 texcoord;
 
 void main(void)
 {
-    vec3 n_normal=normalize(gl_Normal);
+    vec3 n_normal=normalize(gl_NormalMatrix * gl_Normal);
 
-    vec4 vertex4 = gl_ModelViewProjectionMatrix * gl_Vertex;
-
-    v_vertex = vec3(vertex4);
+    v_vertex = gl_ModelViewMatrix * gl_Vertex;
 
     v_normal=n_normal;
     v_color=gl_Color;
 
     texcoord = vec2(gl_MultiTexCoord0);
 
-    gl_Position = vertex4;
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 }
