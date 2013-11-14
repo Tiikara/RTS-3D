@@ -24,7 +24,7 @@ void main(void)
 
     float t[10];
     vec4 c[10];
-    int ln1;
+    int ln1=0;
     int ln2;
     int ln3;
     float mingr2;
@@ -41,7 +41,7 @@ void main(void)
     float lm=1.0/flayerC;
     for(int j=0;j<layerC;j++)
     {
-        float corz=((j*lm)+(0.5*lm));
+        float corz=((float(j)*lm)+(0.5*lm));
         c[j]=texture3D(tex,vec3(tex_c.x,tex_c.y,corz));
     }
 

@@ -16,7 +16,7 @@ void main(void)
 
     vec4 interp_vertex = gl_Vertex + (vec4(next_v,1.0)-gl_Vertex) * u_interp;
 
-    v_vertex = gl_ModelViewMatrix * interp_vertex;
+    v_vertex = vec3(gl_ModelViewMatrix * interp_vertex);
 
     v_normal=n_normal;
     v_color=gl_Color;
