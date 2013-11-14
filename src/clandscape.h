@@ -48,6 +48,9 @@ private:
     float fSide;
     int layer_c;
     float flayer_c;
+    int border_c;
+    float *borders;
+    GLuint bordersId;
     // ---
 
     UINT uiSeed;

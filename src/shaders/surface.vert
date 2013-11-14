@@ -1,13 +1,12 @@
-uniform float freq;
 uniform float size;
+uniform sampler1D noise_table;
+uniform vec3 view_pos;
+
 varying vec3 n;
 varying vec3 l;
 varying float h;
-vec4 lpos=vec4(0.0,0.0,10.0,1.0);
-varying vec2 planar_c;
-uniform sampler1D noise_table;
 varying vec3 v;
-uniform vec3 view_pos;
+varying vec2 planar_c;
 
 uniform float start_kf;
 uniform float grow_pow;
@@ -15,6 +14,8 @@ uniform vec2 x_val;
 uniform vec3 curve0;
 uniform vec3 curve1;
 uniform vec2 kb_line;
+
+vec4 lpos=vec4(0.0,0.0,10.0,1.0);
 
 float corr_func(in float x)
 {
@@ -75,9 +76,6 @@ float Noise2D(in float x, in float y, out vec3 n)
 
 float NoiseSum(in int an, in float A, in float FR, in float x, in float y, out vec3 norm)
 {
-    float pfk=0.707;
-
-
     float cur_a=A;
     float cur_fr=FR;
     float h=0.0;

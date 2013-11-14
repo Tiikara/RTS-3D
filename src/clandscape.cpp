@@ -18,10 +18,10 @@ void CLandscape::initializeGL()
 
     shader_prog.link();
     shader_prog.bind();
-    shader_prog.setUniformValue("freq",5.0f);
     shader_prog.setUniformValue("size",1.5f);
     shader_prog.setUniformValue("tex",0);
     shader_prog.setUniformValue("noise_table",1);
+    shader_prog.setUniformValue("tex1Borders",2);
     shader_prog.setUniformValue("flayerC",flayer_c);
     shader_prog.setUniformValue("layerC",layer_c);
     shader_prog.release();
@@ -73,7 +73,16 @@ void CLandscape::genTexture()
     glTexParameteri(GL_TEXTURE_3D_EXT,GL_TEXTURE_WRAP_S,GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D_EXT,GL_TEXTURE_WRAP_T,GL_REPEAT);
     glTexImage3DEXT(GL_TEXTURE_3D_EXT,0,GL_RGB,w,h,d,0,GL_RGB,GL_UNSIGNED_BYTE,tex);
+    glBindTexture(GL_TEXTURE_3D_EXT,0);
     delete[] tex;
+
+    glGenTextures(1,&bordersId);
+    glBindTexture(GL_TEXTURE_1D,bordersId);
+    glTexParameteri(GL_TEXTURE_1D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_1D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_1D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+    glTexImage1D(GL_TEXTURE_1D,0,GL_R32F,border_c,0,GL_RED,GL_FLOAT,borders);
+    glBindTexture(GL_TEXTURE_1D,0);
 }
 
 void CLandscape::loadSettings(const char *fileName)
@@ -104,6 +113,15 @@ void CLandscape::loadSettings(const char *fileName)
     flayer_c = settings.value("flayer_c").toFloat();
     layer_c = settings.value("layer_c").toInt();
     settings.endGroup();
+
+    border_c = layer_c-1;
+
+    borders = new float[border_c];
+
+    settings.beginGroup("TextureBorders");
+    for(int i=0;i<border_c;i++)
+        borders[i] = settings.value("Border." + QString::number(i)).toFloat();
+    settings.endGroup();
 }
 
 void CLandscape::generateLandscape()
@@ -129,6 +147,9 @@ void CLandscape::draw(float *cam_pos)
     glEnable(GL_TEXTURE_3D_EXT);
     glActiveTextureARB(GL_TEXTURE1);
     noise.enable_texture();
+    glEnable(GL_TEXTURE_1D);
+    glActiveTextureARB(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_1D,bordersId);
 
     shader_prog.bind();
     shader_prog.setUniformValue("view_pos",cam_pos[0],cam_pos[1],cam_pos[2]);
@@ -141,6 +162,8 @@ void CLandscape::draw(float *cam_pos)
     glActiveTextureARB(GL_TEXTURE0);
     glDisable(GL_TEXTURE_3D_EXT);
     glBindTexture(GL_TEXTURE_3D_EXT,0);
+    glDisable(GL_TEXTURE_1D);
+    glBindTexture(GL_TEXTURE_1D,0);
 
 
     water.draw(cam_pos);
