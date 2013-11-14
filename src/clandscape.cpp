@@ -78,6 +78,9 @@ void CLandscape::genTexture()
 
     glGenTextures(1,&bordersId);
     glBindTexture(GL_TEXTURE_1D,bordersId);
+    glTexParameteri(GL_TEXTURE_1D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_1D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_1D,GL_TEXTURE_WRAP_S,GL_REPEAT);
     glTexImage1D(GL_TEXTURE_1D,0,GL_R32F,border_c,0,GL_RED,GL_FLOAT,borders);
     glBindTexture(GL_TEXTURE_1D,0);
 }

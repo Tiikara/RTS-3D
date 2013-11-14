@@ -76,9 +76,6 @@ float Noise2D(in float x, in float y, out vec3 n)
 
 float NoiseSum(in int an, in float A, in float FR, in float x, in float y, out vec3 norm)
 {
-    float pfk=0.707;
-
-
     float cur_a=A;
     float cur_fr=FR;
     float h=0.0;
