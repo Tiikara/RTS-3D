@@ -1,7 +1,6 @@
 uniform vec3 u_camera;
 
 uniform float u_k_diffuse;
-uniform float u_k_specular;
 
 uniform sampler2D text;
 
@@ -20,7 +19,7 @@ void main(void)
 
     vec3 lookvector = normalize(u_camera - v_vertex);
 
-    float diffuse = texture2D(text,texcoord).a * max(dot(n_normal, lightvector), 0.0);
+    float diffuse = u_k_diffuse * max(dot(n_normal, lightvector), 0.0);
 
     vec3 reflectvector = reflect(-lightvector, n_normal);
 

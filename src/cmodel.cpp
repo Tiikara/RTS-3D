@@ -78,8 +78,7 @@ void CModel::initializeGL()
     model_shader.addShaderFromSourceFile(QGLShader::Fragment,":/shaders/model.frag");
     model_shader.link();
     model_shader.bind();
-    model_shader.setUniformValue("u_k_diffuse",0.8f);
-    model_shader.setUniformValue("u_k_specular",0.4f);
+    model_shader.setUniformValue("u_k_diffuse",0.4f);
     model_shader.setUniformValue("text",0);
     vertexLocation = model_shader.attributeLocation("next_v");
     normalLocation = model_shader.attributeLocation("next_n");

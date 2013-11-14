@@ -1,15 +1,8 @@
-uniform vec3 u_camera;
-
-uniform float u_ambient;
-uniform float u_k_diffuse;
-uniform float u_k_specular;
-
 uniform float u_interp;
 
 varying vec3 v_vertex;
 varying vec3 v_normal;
 varying vec4 v_color;
-
 varying vec2 texcoord;
 
 attribute vec3 next_v;
