@@ -45,8 +45,9 @@ void main(void)
         c[j]=texture3D(tex,vec3(tex_c.x,tex_c.y,corz));
     }
 
+    float ntexel = 2.0 * (flayerC-1.0);
     for(int i=1;i<layerC;i++)
-        t[i]=texture1D(tex1Borders,float(i-1)/(flayerC-1.0)).r;
+        t[i]=texture1D(tex1Borders,(2.0 * float(i-1) + 1.0)/ntexel).r;
     t[0] = -10.0;
     t[layerC] = 10.0;
 
