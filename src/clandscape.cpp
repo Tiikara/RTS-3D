@@ -135,6 +135,21 @@ float CLandscape::getHeight(float x, float y)
                     noise.getHeight(x,y,10,1.5f,0.5));
 }
 
+int CLandscape::getSurfaceType(float x, float y)
+{
+    float h = getHeight(x,y);
+    if(h < water.getSeaLevel())
+        return 0;
+
+    for(int i=0;i<border_c;i++)
+    {
+        if(h < borders[i])
+            return (i+1);
+    }
+
+    return layer_c;
+}
+
 void CLandscape::getNormal(float x, float y, vec3f norm_out)
 {
     noise.computeNormals(x,y,10,1.5f,0.5,norm_out);

@@ -23,7 +23,7 @@ public:
     void loadSettings(const char *fileName);
     void generateLandscape();
     float getHeight(float x, float y);
- //   E_SURFACETYPE getSurfaceType(float x, float y);
+    int getSurfaceType(float x, float y);
     void getNormal(float x, float y, vec3f norm_out);
 
     void draw(float *positionCamera);
