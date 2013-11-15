@@ -1,15 +1,12 @@
 uniform vec3 u_camera;
 
-uniform float u_k_diffuse;
-
 uniform sampler2D text;
-
-vec3 lightPosition = vec3(0.0,0.0,10.0);
 
 varying vec3 v_vertex;
 varying vec3 v_normal;
 varying vec4 v_color;
 varying vec2 texcoord;
+varying vec3 lightPosition;
 
 void main(void)
 {
@@ -19,15 +16,14 @@ void main(void)
 
     vec3 lookvector = normalize(u_camera - v_vertex);
 
-    float diffuse = u_k_diffuse * max(dot(n_normal, lightvector), 0.0);
+    float diffuse = min( max(dot(n_normal, lightvector), 0.0) + 0.5,1.0 );
 
     vec3 reflectvector = reflect(-lightvector, n_normal);
 
     float specular = texture2D(text,texcoord).a * pow( max(dot(lookvector,reflectvector),0.0), 8.0 );
 
-    vec4 diffColor = vec4(1.0,1.0,1.0,1.0);
     vec4 specColor = vec4(1.0,1.0,1.0,1.0);
 
-    gl_FragColor = diffuse*diffColor+specular*specColor+vec4(texture2D(text,texcoord).rgb, 1.0);
+    gl_FragColor = specular*specColor+vec4(texture2D(text,texcoord).rgb*diffuse, 1.0);
 
 }
