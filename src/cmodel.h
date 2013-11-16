@@ -5,6 +5,7 @@
 #include "gl_ext/libExt.h"
 
 typedef unsigned int ui;
+typedef float vec3f[3];
 
 class CModel
 {
@@ -15,8 +16,17 @@ public:
 
     void initializeGL();
 
+    void setPosition(float x, float y, float z);
+    void setScale(float x, float y, float z);
+    void setRotateParam(float angle, float x, float y, float z);
+
     void draw(float *cam_pos);
 private:
+    QMatrix4x4 modelViewMatrix;
+    vec3f pos;
+    float rot[4];
+    vec3f scale;
+
     QGLShaderProgram model_shader;
 
     int vertexLocation;

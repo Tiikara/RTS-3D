@@ -68,7 +68,6 @@ void MainWindow::paintGL()
 
     camera.look();
     landscape.draw(camera.getPosition());
-    glTranslatef(0.0f,0.0f,1.0f);
     model.draw(camera.getPosition());
 }
 

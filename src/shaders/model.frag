@@ -1,20 +1,21 @@
-uniform vec3 u_camera;
+
 
 uniform sampler2D text;
 
 varying vec3 v_vertex;
 varying vec3 v_normal;
 varying vec4 v_color;
+varying vec3 v_camera;
 varying vec2 texcoord;
-varying vec4 lightPosition;
+varying vec3 v_lightPosition;
 
 void main(void)
 {
     vec3 n_normal=normalize(v_normal);
 
-    vec3 lightvector = normalize(vec3(lightPosition) - v_vertex);
+    vec3 lightvector = normalize(v_lightPosition - v_vertex);
 
-    vec3 lookvector = normalize(u_camera - v_vertex);
+    vec3 lookvector = normalize(v_camera - v_vertex);
 
     float diffuse = min( max(dot(n_normal, lightvector), 0.0) + 0.5,1.0 );
 

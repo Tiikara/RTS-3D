@@ -7,6 +7,14 @@
 
 CModel::CModel()
 {
+    for(int i=0;i<3;i++)
+        pos[i] = 0.0f;
+
+    for(int i=0;i<3;i++)
+        scale[i] = 1.0f;
+
+    for(int i=1;i<4;i++)
+        rot[i] = 0.0f;
 }
 
 void CModel::loadFromFile(const char *fileName, const char *fileNameTexture)
@@ -84,6 +92,28 @@ void CModel::initializeGL()
     model_shader.release();
 }
 
+void CModel::setPosition(float x, float y, float z)
+{
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+}
+
+void CModel::setScale(float x, float y, float z)
+{
+    scale[0] = x;
+    scale[1] = y;
+    scale[2] = z;
+}
+
+void CModel::setRotateParam(float angle, float x, float y, float z)
+{
+    rot[0] = angle;
+    rot[1] = x;
+    rot[2] = y;
+    rot[3] = z;
+}
+
 void CModel::draw(float *cam_pos)
 {
     fCurrentFrame += 0.01;
@@ -94,9 +124,15 @@ void CModel::draw(float *cam_pos)
 
     if(next_frame >= countFrames) next_frame = 0;
 
+    modelViewMatrix.setToIdentity();
+    modelViewMatrix.translate(pos[0],pos[1],pos[2]);
+    modelViewMatrix.rotate(rot[0],rot[1],rot[2],rot[3]);
+    modelViewMatrix.scale(scale[0],scale[1],scale[2]);
+
     model_shader.bind();
     model_shader.setUniformValue("u_camera",cam_pos[0],cam_pos[1],cam_pos[2]);
     model_shader.setUniformValue("u_interp",fCurrentFrame - float(curr_frame));
+    model_shader.setUniformValueArray("u_modelViewMatrix", &modelViewMatrix,1);
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tId);
