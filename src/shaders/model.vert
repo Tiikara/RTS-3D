@@ -4,7 +4,7 @@ varying vec3 v_vertex;
 varying vec3 v_normal;
 varying vec4 v_color;
 varying vec2 texcoord;
-varying vec3 lightPosition;
+varying vec4 lightPosition;
 
 attribute vec3 next_v;
 attribute vec3 next_n;

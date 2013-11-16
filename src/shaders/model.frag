@@ -6,13 +6,13 @@ varying vec3 v_vertex;
 varying vec3 v_normal;
 varying vec4 v_color;
 varying vec2 texcoord;
-varying vec3 lightPosition;
+varying vec4 lightPosition;
 
 void main(void)
 {
     vec3 n_normal=normalize(v_normal);
 
-    vec3 lightvector = normalize(lightPosition - v_vertex);
+    vec3 lightvector = normalize(vec3(lightPosition) - v_vertex);
 
     vec3 lookvector = normalize(u_camera - v_vertex);
 
