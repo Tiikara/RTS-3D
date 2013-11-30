@@ -9,6 +9,7 @@
 #include "cnoise.h"
 #include <QVector3D>
 #include "cwater.h"
+#include "cforest.h"
 
 typedef float vec3f[3];
 typedef float quad[4][3];
@@ -39,7 +40,7 @@ private:
     };
 
     cSurfaceMesh mesh;
-
+    CForest forest;
     CWater water;
 
     // settings

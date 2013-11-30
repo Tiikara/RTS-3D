@@ -29,6 +29,8 @@ void CLandscape::initializeGL()
     genTexture();
 
     water.initializeGL();
+    forest.initializeGL();
+    forest.generate(this);
 }
 
 void CLandscape::genTexture()
@@ -138,7 +140,7 @@ float CLandscape::getHeight(float x, float y)
 int CLandscape::getSurfaceType(float x, float y)
 {
     float h = getHeight(x,y);
-    if(h < water.getSeaLevel())
+    if(h <= water.getSeaLevel())
         return 0;
 
     for(int i=0;i<border_c;i++)
@@ -182,6 +184,7 @@ void CLandscape::draw(float *cam_pos)
 
 
     water.draw(cam_pos);
+    forest.draw();
 }
 
 void CLandscape::update()

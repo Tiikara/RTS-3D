@@ -68,7 +68,7 @@ void MainWindow::paintGL()
 
     camera.look();
     landscape.draw(camera.getPosition());
-    model.draw(camera.getPosition());
+    model.draw();
 }
 
 void MainWindow::updateLogic()

@@ -7,13 +7,15 @@
 
 CModel::CModel()
 {
+    fCurrentFrame = 0.0f;
+
     for(int i=0;i<3;i++)
         pos[i] = 0.0f;
 
     for(int i=0;i<3;i++)
         scale[i] = 1.0f;
 
-    for(int i=1;i<4;i++)
+    for(int i=0;i<4;i++)
         rot[i] = 0.0f;
 }
 
@@ -114,13 +116,13 @@ void CModel::setRotateParam(float angle, float x, float y, float z)
     rot[3] = z;
 }
 
-void CModel::draw(float *cam_pos)
+void CModel::draw()
 {
     fCurrentFrame += 0.01;
     if(fCurrentFrame > countFrames) fCurrentFrame -= float(countFrames);
 
     int curr_frame = int(fCurrentFrame);
-    int next_frame = curr_frame+1;
+    ui next_frame = curr_frame+1;
 
     if(next_frame >= countFrames) next_frame = 0;
 
@@ -130,7 +132,6 @@ void CModel::draw(float *cam_pos)
     modelViewMatrix.scale(scale[0],scale[1],scale[2]);
 
     model_shader.bind();
-    model_shader.setUniformValue("u_camera",cam_pos[0],cam_pos[1],cam_pos[2]);
     model_shader.setUniformValue("u_interp",fCurrentFrame - float(curr_frame));
     model_shader.setUniformValueArray("u_modelViewMatrix", &modelViewMatrix,1);
 

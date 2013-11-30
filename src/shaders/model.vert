@@ -1,11 +1,8 @@
 uniform float u_interp;
-uniform vec3 u_camera;
 uniform mat4 u_modelViewMatrix;
 
 varying vec3 v_vertex;
 varying vec3 v_normal;
-varying vec4 v_color;
-varying vec3 v_camera;
 varying vec2 texcoord;
 varying vec3 v_lightPosition;
 
@@ -15,7 +12,6 @@ attribute vec3 next_n;
 void main(void)
 {
     v_lightPosition = vec3(gl_ModelViewMatrix * vec4(1.0,0.0,1.0,1.0));
-    v_camera = vec3(gl_ModelViewMatrix * vec4(u_camera,1.0));
 
     vec3 interp_normal = gl_Normal + (next_n-gl_Normal) * u_interp;
 
@@ -26,7 +22,6 @@ void main(void)
     v_vertex = vec3(gl_ModelViewMatrix * u_modelViewMatrix * interp_vertex);
 
     v_normal=n_normal;
-    v_color=gl_Color;
 
     texcoord = vec2(gl_MultiTexCoord0);
 

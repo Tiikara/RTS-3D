@@ -20,7 +20,7 @@ public:
     void setScale(float x, float y, float z);
     void setRotateParam(float angle, float x, float y, float z);
 
-    void draw(float *cam_pos);
+    void draw();
 private:
     QMatrix4x4 modelViewMatrix;
     vec3f pos;

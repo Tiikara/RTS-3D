@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     clandscape.cpp \
     ccamera.cpp \
     cmodel.cpp \
-    cwater.cpp
+    cwater.cpp \
+    cforest.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
@@ -34,7 +35,8 @@ HEADERS  += MainWindow.h \
     clandscape.h \
     ccamera.h \
     cmodel.h \
-    cwater.h
+    cwater.h \
+    cforest.h
 
 OTHER_FILES += \
     shaders/water.vert \
