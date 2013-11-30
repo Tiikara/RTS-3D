@@ -52,6 +52,9 @@ private:
     int border_c;
     float *borders;
     GLuint bordersId;
+
+    float fFreq;
+    float fAmplit;
     // ---
 
     UINT uiSeed;

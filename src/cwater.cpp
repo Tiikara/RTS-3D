@@ -49,10 +49,10 @@ void CWater::draw(float *cam_pos)
     water_shader.setUniformValue("l2_dv",sa.pos2[0],sa.pos2[1]);
 
     glBegin(GL_QUADS);
-        glVertex3f(-5.0,-5.0,fSeaLevel);
-        glVertex3f(5.0,-5.0,fSeaLevel);
-        glVertex3f(5.0,5.0,fSeaLevel);
-        glVertex3f(-5.0,5.0,fSeaLevel);
+        glVertex3f(-50.0,-50.0,fSeaLevel);
+        glVertex3f(50.0,-50.0,fSeaLevel);
+        glVertex3f(50.0,50.0,fSeaLevel);
+        glVertex3f(-50.0,50.0,fSeaLevel);
     glEnd();
 
     water_shader.release();

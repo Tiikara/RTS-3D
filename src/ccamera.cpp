@@ -8,11 +8,12 @@ enum CAM_KEYS {Key_Up, Key_Down, Key_Left, Key_Right};
 CCamera::CCamera():
     max_va(60.0f),
     min_va(30.0f),
-    max_h(3.0f),
-    min_h(1.5f),
+    max_h(30.0f),
+    min_h(2.5f),
     curr_h(2.0f),
     rotate(0.0f),
-    moveSpeed(0.05f),
+    moveSpeed(0.3f),
+    speedScroll(0.005f),
     old_mx(-100)
 {
     for(int i=0;i<3;i++)
@@ -72,7 +73,7 @@ void CCamera::mouseMoveEvent(QMouseEvent *me, float width)
 
 void CCamera::wheelEvent(QWheelEvent *we)
 {
-    float new_h = curr_h-we->delta()*0.0005;
+    float new_h = curr_h-we->delta()*speedScroll;
     if(new_h > max_h) curr_h = max_h; else
     if(new_h < min_h) curr_h = min_h; else
 

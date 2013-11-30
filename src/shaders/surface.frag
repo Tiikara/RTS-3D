@@ -1,5 +1,5 @@
 
-uniform float size;
+uniform float amplit;
 uniform sampler3D tex;
 uniform sampler1D noise_table;
 uniform sampler1D tex1Borders;
@@ -35,7 +35,7 @@ void main(void)
     vec3 R=-reflect(L,N);
     float spec_k=pow(max(dot(R,V),0.0),8.0);
     vec2 tex_c=vec2(planar_c.x/0.75,planar_c.y/0.5);
-    float dint=0.2*size;
+    float dint=0.2*amplit;
     vec4 col;
 
     float lm=1.0/flayerC;

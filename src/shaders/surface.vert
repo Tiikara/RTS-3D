@@ -1,4 +1,5 @@
-uniform float size;
+uniform float amplit;
+uniform float freq;
 uniform sampler1D noise_table;
 uniform vec3 view_pos;
 
@@ -99,7 +100,7 @@ float NoiseSum(in int an, in float A, in float FR, in float x, in float y, out v
 void main(void)
 {
     vec4 vpos=gl_Vertex;
-    vpos.z=NoiseSum(10,size,0.5,vpos.x,vpos.y,n);
+    vpos.z=NoiseSum(10,amplit,freq,vpos.x,vpos.y,n);
 
     h=vpos.z;
     gl_Position = gl_ModelViewProjectionMatrix * vpos;

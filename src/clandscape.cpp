@@ -18,7 +18,8 @@ void CLandscape::initializeGL()
 
     shader_prog.link();
     shader_prog.bind();
-    shader_prog.setUniformValue("size",1.5f);
+    shader_prog.setUniformValue("amplit",fAmplit);
+    shader_prog.setUniformValue("freq",fFreq);
     shader_prog.setUniformValue("tex",0);
     shader_prog.setUniformValue("noise_table",1);
     shader_prog.setUniformValue("tex1Borders",2);
@@ -109,6 +110,8 @@ void CLandscape::loadSettings(const char *fileName)
                        settings.value("y0").toFloat(),
                        settings.value("x1").toFloat(),
                        settings.value("y1").toFloat());
+    fFreq = settings.value("Frequency").toFloat();
+    fAmplit = settings.value("Amplitude").toFloat();
     settings.endGroup();
 
     settings.beginGroup("Layer_c");
@@ -134,7 +137,7 @@ void CLandscape::generateLandscape()
 float CLandscape::getHeight(float x, float y)
 {
     return std::max(water.getSeaLevel(),
-                    noise.getHeight(x,y,10,1.5f,0.5));
+                    noise.getHeight(x,y,10,fAmplit,fFreq));
 }
 
 int CLandscape::getSurfaceType(float x, float y)
@@ -154,7 +157,7 @@ int CLandscape::getSurfaceType(float x, float y)
 
 void CLandscape::getNormal(float x, float y, vec3f norm_out)
 {
-    noise.computeNormals(x,y,10,1.5f,0.5,norm_out);
+    noise.computeNormals(x,y,10,fAmplit,fFreq,norm_out);
 }
 
 void CLandscape::draw(float *cam_pos)

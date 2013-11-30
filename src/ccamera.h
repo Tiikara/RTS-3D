@@ -49,6 +49,7 @@ private:
     float rotate;
 
     float moveSpeed;
+    float speedScroll;
 
     bool pressedKeys[4];
 
