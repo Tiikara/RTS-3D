@@ -16,6 +16,8 @@ public:
 
     void initializeGL();
 
+    void setPosition(float *position);
+
     void setPosition(float x, float y, float z);
     void setScale(float x, float y, float z);
     void setRotateParam(float angle, float x, float y, float z);

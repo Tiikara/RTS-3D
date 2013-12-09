@@ -59,13 +59,13 @@ void CCamera::keyReleaseEvent(QKeyEvent *k)
     if(k->key() == Qt::Key_Right) pressedKeys[Key_Right] = false;
 }
 
-void CCamera::mouseMoveEvent(QMouseEvent *me, float width)
+void CCamera::mouseMoveEvent(QMouseEvent *me)
 {
     int xp=me->x();
     if (old_mx!=-100)
     {
         if (me->buttons()==Qt::MiddleButton)
-            rotate+=((xp-old_mx)/width)*90.0f;
+            rotate+=((xp-old_mx)/QApplication::activeWindow()->width())*90.0f;
     }
     old_mx=xp;
 

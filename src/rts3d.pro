@@ -27,7 +27,14 @@ SOURCES += main.cpp\
     ccamera.cpp \
     cmodel.cpp \
     cwater.cpp \
-    cforest.cpp
+    cscene.cpp \
+    cbaseobject.cpp \
+    cselection.cpp \
+    ctree.cpp \
+    generateforest.cpp \
+    cwindow.cpp \
+    cbutton.cpp \
+    cinterface.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
@@ -36,7 +43,14 @@ HEADERS  += MainWindow.h \
     ccamera.h \
     cmodel.h \
     cwater.h \
-    cforest.h
+    cscene.h \
+    cbaseobject.h \
+    cselection.h \
+    ctree.h \
+    generateforest.h \
+    cwindow.h \
+    cbutton.h \
+    cinterface.h
 
 OTHER_FILES += \
     shaders/water.vert \

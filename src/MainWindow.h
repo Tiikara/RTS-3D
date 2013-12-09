@@ -9,27 +9,24 @@
 #include "math.h"
 #include <QMouseEvent>
 #include <QKeyEvent>
-#include "ccamera.h"
 
-#include "clandscape.h"
-#include "cmodel.h"
+#include "cscene.h"
 
 class MainWindow : public QGLWidget
 {
     Q_OBJECT
 
 private:
-
-    CLandscape landscape;
-    CCamera camera;
-
-    CModel model;
+    CScene scene;
 protected:
     void initializeGL();
     void genTexture();
     void resizeGL(int w, int h);
     void paintGL();
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
+    void mousePostitionEvent();
     void wheelEvent(QWheelEvent *we);
     void keyPressEvent(QKeyEvent *);
     void keyReleaseEvent(QKeyEvent *);

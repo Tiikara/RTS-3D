@@ -5,6 +5,10 @@
 #include <time.h>
 #include <algorithm>
 
+#include "ccamera.h"
+
+#define PI 3.14159265f
+
 CLandscape::CLandscape()
 {}
 
@@ -30,8 +34,11 @@ void CLandscape::initializeGL()
     genTexture();
 
     water.initializeGL();
-    forest.initializeGL();
-    forest.generate(this);
+}
+
+void CLandscape::setCamera(CCamera *camera)
+{
+    this->camera = camera;
 }
 
 void CLandscape::genTexture()
@@ -143,6 +150,11 @@ float CLandscape::getHeight(float x, float y)
 int CLandscape::getSurfaceType(float x, float y)
 {
     float h = getHeight(x,y);
+    return getSurfaceType(h);
+}
+
+int CLandscape::getSurfaceType(float h)
+{
     if(h <= water.getSeaLevel())
         return 0;
 
@@ -160,8 +172,110 @@ void CLandscape::getNormal(float x, float y, vec3f norm_out)
     noise.computeNormals(x,y,10,fAmplit,fFreq,norm_out);
 }
 
-void CLandscape::draw(float *cam_pos)
+void CLandscape::getIntersectPosition(float mx, float my, float *pos)
 {
+    float *cam_pos = camera->getPosition();
+
+    my = QApplication::activeWindow()->height() - my;
+    float tray[6];
+
+    float rotate = camera->getRotate();
+    float angle = -camera->getAngle();
+
+    qDebug() << "angle: " << angle;
+
+    my = (-1.0f + (2.0f/QApplication::activeWindow()->height())*(my));
+    mx = -(-1.0f + (2.0f/QApplication::activeWindow()->width())*(mx));
+
+    qDebug() << "mx: " << mx << " " << "my: " << my;
+
+    float sinv = sin(rotate * PI/180.0f);
+    float cosv = cos(rotate * PI/180.0f);
+
+//    tray[0] = cosv*mx;
+//    tray[1] = sinv*mx;
+//    tray[2] = my;
+
+//    tray[3+0] = 0.5f * cosv - mx * sinv;
+//    tray[3+1] = mx * cosv + 0.5f * sinv;
+//    tray[3+2] = my;
+
+    tray[0] = 0;
+    tray[1] = mx;
+    tray[2] = my;
+
+    tray[3+0] = 0.5;
+    tray[3+1] = mx;
+    tray[3+2] = my;
+
+//    tray[0] = 0;
+//    tray[1] = mx;
+//    tray[2] = my;
+
+//    tray[3+0] = 0+0.5f;
+//    tray[3+1] = mx;
+//    tray[3+2] = my;
+
+    sinv = sin(angle * PI/180.0f);
+    cosv = cos(angle * PI/180.0f);
+
+    float ray[6];
+
+    ray[0] = tray[0]*cosv-tray[2]*sinv + cam_pos[0];
+    ray[1] = tray[1] + cam_pos[1];
+    ray[2] = tray[0]*sinv+tray[2]*cosv + cam_pos[2];
+
+    ray[3+0] = tray[3+0]*cosv-tray[3+2]*sinv + cam_pos[0];
+    ray[3+1] = tray[3+1] + cam_pos[1];
+    ray[3+2] = tray[3+0]*sinv+tray[3+2]*cosv + cam_pos[2];
+
+    //ray[0] = tray[0]*cosv+;
+
+    qDebug() << "vector1: " << ray[0] << " " << ray[1] << " " << ray[2];
+    qDebug() << "vector1: " << ray[3+0] << " " << ray[3+1] << " " << ray[3+2];
+
+    QVector3D rayStep(ray[3+0]-ray[0],ray[3+1]-ray[1],ray[3+2]-ray[2]);
+    QVector3D rayStartPosition(ray[0],ray[1],ray[2]);
+    QVector3D rayPosition = rayStartPosition;
+
+    QVector3D lastRayPosition = rayStartPosition;
+    rayPosition += rayStep;
+    float height = getHeight(rayPosition.x(),rayPosition.y());
+
+    while (rayPosition.z() >= height)
+    {
+        lastRayPosition = rayPosition;
+        rayPosition += rayStep;
+        height = getHeight(rayPosition.x(),rayPosition.y());
+    }
+
+    QVector3D startPosition = lastRayPosition;
+    QVector3D endPosition = rayPosition;
+
+    for (int i = 0; i < 32; i++)
+    {
+        QVector3D middlePoint = (startPosition + endPosition) * 0.5f;
+
+        if (middlePoint.z() < height)
+            endPosition = middlePoint;
+        else
+            startPosition = middlePoint;
+    }
+
+    QVector3D collisionPoint = (startPosition + endPosition) * 0.5f;
+
+    pos[0] = collisionPoint.x();
+    pos[1] = collisionPoint.y();
+    pos[2] = height;
+
+    qDebug() << "res: " << pos[0] << " " << pos[1] << " " << pos[2];
+
+}
+
+void CLandscape::draw()
+{
+    float *cam_pos = camera->getPosition();
+
     glActiveTextureARB(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D_EXT,tex_id);
     glEnable(GL_TEXTURE_3D_EXT);
@@ -185,9 +299,7 @@ void CLandscape::draw(float *cam_pos)
     glDisable(GL_TEXTURE_1D);
     glBindTexture(GL_TEXTURE_1D,0);
 
-
     water.draw(cam_pos);
-    forest.draw();
 }
 
 void CLandscape::update()

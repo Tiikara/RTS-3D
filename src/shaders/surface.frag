@@ -48,8 +48,8 @@ void main(void)
     float ntexel = 2.0 * (flayerC-1.0);
     for(int i=1;i<layerC;i++)
         t[i]=texture1D(tex1Borders,(2.0 * float(i-1) + 1.0)/ntexel).r;
-    t[0] = -10.0;
-    t[layerC] = 10.0;
+    t[0] = -100.0;
+    t[layerC] = 100.0;
 
     int k=0;
     bool g=false;

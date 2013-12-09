@@ -9,10 +9,11 @@
 #include "cnoise.h"
 #include <QVector3D>
 #include "cwater.h"
-#include "cforest.h"
 
 typedef float vec3f[3];
 typedef float quad[4][3];
+
+class CCamera;
 
 class CLandscape
 {
@@ -21,13 +22,18 @@ public:
 
     void initializeGL();
 
+    void setCamera(CCamera *camera);
+
     void loadSettings(const char *fileName);
     void generateLandscape();
     float getHeight(float x, float y);
     int getSurfaceType(float x, float y);
+    int getSurfaceType(float height);
     void getNormal(float x, float y, vec3f norm_out);
 
-    void draw(float *positionCamera);
+    void getIntersectPosition(float mx, float my, float *pos);
+
+    void draw();
     void update();
 private:
     struct cSurfaceMesh
@@ -40,8 +46,8 @@ private:
     };
 
     cSurfaceMesh mesh;
-    CForest forest;
     CWater water;
+    CCamera *camera;
 
     // settings
     float fWidth;

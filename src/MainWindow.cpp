@@ -7,8 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setMouseTracking(true);
 
-    camera.setLandscape(&landscape);
-
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGL()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLogic()));
@@ -23,33 +21,33 @@ void MainWindow::initializeGL()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    landscape.loadSettings("landscape.ini");
-    landscape.initializeGL();
-
-    model.initializeGL();
-    model.loadFromFile("boy_walk.3d", "form_front.tga");
+    scene.initializeGL();
 }
 
  void MainWindow::mouseMoveEvent(QMouseEvent *me)
  {
-     camera.mouseMoveEvent(me,width());
+     scene.mouseMoveEvent(me);
+ }
+
+ void MainWindow::mousePostitionEvent()
+ {
+     QPoint positionMouse = mapFromGlobal( QCursor::pos());
+     positionMouse.setY(height()-positionMouse.y());
+     scene.mousePositionEvent(&positionMouse);
  }
 
  void MainWindow::wheelEvent(QWheelEvent *we)
  {
-     camera.wheelEvent(we);
+     scene.wheelEvent(we);
  }
  void MainWindow::keyPressEvent(QKeyEvent *k)
  {
-     if(k->key() == Qt::Key_Space)
-         landscape.generateLandscape();
-
-     camera.keyPressEvent(k);
+    scene.keyPressEvent(k);
  }
 
  void MainWindow::keyReleaseEvent(QKeyEvent *k)
  {
-    camera.keyReleaseEvent(k);
+    scene.keyReleaseEvent(k);
  }
 
 void MainWindow::resizeGL(int w, int h)
@@ -65,16 +63,25 @@ void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+    scene.draw();
+}
 
-    camera.look();
-    landscape.draw(camera.getPosition());
-    model.draw();
+void MainWindow::mousePressEvent(QMouseEvent *me)
+{
+    scene.mousePressEvent(me);
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *me)
+{
+    scene.mouseReleaseEvent(me);
+
 }
 
 void MainWindow::updateLogic()
 {
-    camera.update();
-    landscape.update();
+    mousePostitionEvent();
+
+    scene.update();
 }
 
 MainWindow::~MainWindow()

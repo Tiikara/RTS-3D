@@ -24,10 +24,12 @@ public:
     void setLandscape(CLandscape *_landscape);
 
     pvec3f getPosition();
+    float getRotate() { return rotate; }
+    float getAngle() { return curr_va; }
 
     void keyPressEvent(QKeyEvent *k);
     void keyReleaseEvent(QKeyEvent *k);
-    void mouseMoveEvent(QMouseEvent *me, float width);
+    void mouseMoveEvent(QMouseEvent *me);
     void wheelEvent(QWheelEvent *we);
 private:
 
