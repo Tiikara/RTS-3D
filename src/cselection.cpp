@@ -4,7 +4,8 @@
 
 #include "math.h"
 
-CSelection::CSelection()
+CSelection::CSelection():
+    bUpdated(true)
 {
 }
 
@@ -21,6 +22,16 @@ void CSelection::update()
 void CSelection::draw()
 {
 
+}
+
+bool CSelection::isUpdated()
+{
+    if(bUpdated)
+    {
+        bUpdated = false;
+        return true;
+    }
+    return false;
 }
 
 void CSelection::mousePressEvent(QMouseEvent *me)
@@ -48,17 +59,19 @@ void CSelection::mousePressEvent(QMouseEvent *me)
                 {
                     selectedObjects[0] = objects[i];
                     countSelected = 1;
+
+                    bUpdated = true;
                 }
             }
         }
 }
 
-void CSelection::mouseReleaseEvent(QMouseEvent *me)
+void CSelection::mouseReleaseEvent(QMouseEvent *)
 {
 
 }
 
-void CSelection::mouseMoveEvent(QMouseEvent *me)
+void CSelection::mouseMoveEvent(QMouseEvent *)
 {
 
 }

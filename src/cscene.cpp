@@ -41,8 +41,7 @@ void CScene::initializeGL()
     CTree::initializeGLModel();
     generateForests(trees,&countTrees,&landscape);
 
-    inter.loadTextures("tex/int.png");
-    inter.setPosition(10,10);
+    commandVController.initializeGL();
 }
 
 void CScene::draw()
@@ -58,11 +57,7 @@ void CScene::draw()
     glVertex3fv(posPoint);
     glEnd();
 
-    CWindow::begin2DMode();
-
-    inter.draw();
-
-    CWindow::end2DMode();
+    commandVController.drawInterface();
 }
 
 void CScene::update()
@@ -72,7 +67,7 @@ void CScene::update()
     camera.update();
     landscape.update();
 
-    inter.update();
+    commandVController.updateInterface();
 }
 
 Cell *CScene::getCellFromPosition(float x, float y)
@@ -96,12 +91,12 @@ void CScene::mouseMoveEvent(QMouseEvent *me)
 
     selection.mouseMoveEvent(me);
 
-    inter.mouseMoveEvent(me->x(),QApplication::activeWindow()->height()-me->y(),me->buttons()==Qt::LeftButton? true : false,me->buttons()==Qt::RightButton? true : false);
+    commandVController.mouseMoveEvent(me);
 }
 
 void CScene::mousePressEvent(QMouseEvent *me)
 {
-    inter.mousePressEvent(me->x(),QApplication::activeWindow()->height()-me->y(),me->buttons()==Qt::LeftButton? true : false,me->buttons()==Qt::RightButton? true : false);
+    commandVController.mousePressEvent(me);
 
     if(me->button() == Qt::LeftButton)
     {
@@ -115,12 +110,12 @@ void CScene::mouseReleaseEvent(QMouseEvent *me)
 {
     selection.mouseReleaseEvent(me);
 
-    inter.mouseReleaseEvent(me->x(),QApplication::activeWindow()->height()-me->y(),me->buttons()==Qt::LeftButton? true : false,me->buttons()==Qt::RightButton? true : false);
+    commandVController.mouseReleaseEvent(me);
 }
 
 void CScene::mousePositionEvent(QPoint *p)
 {
-    inter.mousePositionEvent(p->x(),p->y());
+    commandVController.mousePositionEvent(p);
 }
 
 void CScene::wheelEvent(QWheelEvent *we)

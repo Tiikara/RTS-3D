@@ -13,6 +13,7 @@ public:
     CModel();
 
     void loadFromFile(const char *fileName, const char *fileNameTexture);
+    void loadAnimationDesc(const char *fileName);
 
     void initializeGL();
 
@@ -22,7 +23,7 @@ public:
     void setScale(float x, float y, float z);
     void setRotateParam(float angle, float x, float y, float z);
 
-    void draw();
+    void draw(float frame = 0);
 private:
     QMatrix4x4 modelViewMatrix;
     vec3f pos;
@@ -35,7 +36,6 @@ private:
     int normalLocation;
 
     ui countFrames;
-    float fCurrentFrame;
 
     GLuint *vId;
     GLuint *nId;

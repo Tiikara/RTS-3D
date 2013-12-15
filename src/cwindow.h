@@ -1,9 +1,11 @@
 #ifndef CWINDOW_H
 #define CWINDOW_H
 
+#include <QtOpenGL>
 #include <QObject>
 #include <QMouseEvent>
 #include <QList>
+#include "ctexture.h"
 
 typedef float vec2f[2];
 
@@ -13,6 +15,7 @@ class CWindow : public QObject
 
 public:
     CWindow();
+    ~CWindow();
 
     void setPosition(float x, float y);
     float *getPosition();
@@ -21,6 +24,8 @@ public:
     void setPriority(int priority);
 
     int getPriority() { return priority; }
+
+    void loadTexture(const char *fileName);
 
     virtual void draw();
     virtual void update();
@@ -33,7 +38,8 @@ public:
     static void begin2DMode();
     static void end2DMode();
 
-    void addChild( CWindow *window, float posX, float posY, int priority );
+    void addChild( CWindow *window, float posX, float posY, int priority = 0 );
+    void clearAllChilds();
 protected:
     virtual bool pressEvent(float mouseX, float mouseY, bool leftMouse, bool rightMouse);
     virtual bool releaseEvent(float mouseX, float mouseY, bool leftMouse, bool rightMouse);
@@ -50,6 +56,8 @@ private:
     int priority;
 
     QList<CWindow*> childs;
+
+    CTexture *tex;
 };
 
 #endif // CWINDOW_H

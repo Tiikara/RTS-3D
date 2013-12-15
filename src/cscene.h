@@ -6,7 +6,7 @@
 #include "ctree.h"
 #include "cbaseobject.h"
 #include "cselection.h"
-#include "cinterface.h"
+#include "ccommandviewcontroller.h"
 
 struct Cell
 {
@@ -43,7 +43,7 @@ private:
 
     CSelection selection;
 
-    CInterface inter;
+    CCommandViewController commandVController;
 
     CTree **trees;
     int countTrees;

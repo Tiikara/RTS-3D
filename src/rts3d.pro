@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rts3d
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=gnu++0x
+
 INCLUDEPATH += ../include/
 DESTDIR = ../bin/
 
@@ -34,7 +36,9 @@ SOURCES += main.cpp\
     generateforest.cpp \
     cwindow.cpp \
     cbutton.cpp \
-    cinterface.cpp
+    canimationobject.cpp \
+    ccommandviewcontroller.cpp \
+    ctexture.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
@@ -50,7 +54,9 @@ HEADERS  += MainWindow.h \
     generateforest.h \
     cwindow.h \
     cbutton.h \
-    cinterface.h
+    canimationobject.h \
+    ccommandviewcontroller.h \
+    ctexture.h
 
 OTHER_FILES += \
     shaders/water.vert \

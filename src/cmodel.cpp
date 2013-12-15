@@ -3,11 +3,12 @@
 
 #include <QGLContext>
 #include <QImage>
+#include <QFile>
 
 
 CModel::CModel()
 {
-    fCurrentFrame = 0.0f;
+    //fCurrentFrame = 0.0f;
 
     for(int i=0;i<3;i++)
         pos[i] = 0.0f;
@@ -123,15 +124,10 @@ void CModel::setRotateParam(float angle, float x, float y, float z)
     rot[3] = z;
 }
 
-void CModel::draw()
+void CModel::draw(float frame)
 {
-    fCurrentFrame += 0.01;
-    if(fCurrentFrame > countFrames) fCurrentFrame -= float(countFrames);
-
-    int curr_frame = int(fCurrentFrame);
-    ui next_frame = curr_frame+1;
-
-    if(next_frame >= countFrames) next_frame = 0;
+    int curr_frame = int(frame);
+    int next_frame = curr_frame + 1;
 
     modelViewMatrix.setToIdentity();
     modelViewMatrix.translate(pos[0],pos[1],pos[2]);
@@ -139,7 +135,7 @@ void CModel::draw()
     modelViewMatrix.scale(scale[0],scale[1],scale[2]);
 
     model_shader.bind();
-    model_shader.setUniformValue("u_interp",fCurrentFrame - float(curr_frame));
+    model_shader.setUniformValue("u_interp",frame-curr_frame);
     model_shader.setUniformValueArray("u_modelViewMatrix", &modelViewMatrix,1);
 
     glEnable(GL_TEXTURE_2D);

@@ -5,8 +5,14 @@
 #include <QGLWidget>
 #include <GL/glu.h>
 
-CWindow::CWindow()
+CWindow::CWindow():
+    tex(NULL)
 {
+}
+
+CWindow::~CWindow()
+{
+    delete tex;
 }
 
 void CWindow::setPosition(float x, float y)
@@ -37,6 +43,14 @@ void CWindow::setPriority(int priority)
     this->priority = priority;
 }
 
+void CWindow::loadTexture(const char *fileName)
+{
+    tex = new CTexture;
+    tex->loadFromFile(fileName);
+    width = tex->getWidth();
+    height = tex->getHeight();
+}
+
 void CWindow::transformCoordToLocal(float *mouseX, float *mouseY)
 {
     (*mouseX)-=pos[0];
@@ -52,6 +66,9 @@ bool CWindow::notInWindowMouse(float mouseX, float mouseY)
 
 void CWindow::draw()
 {
+    if(tex)
+        tex->draw(pos[0],pos[1]);
+
     glPushMatrix();
     glTranslatef(pos[0], pos[1],0.0f);
 
@@ -184,4 +201,9 @@ void CWindow::addChild(CWindow *window, float posX, float posY, int priority)
             break;
 
     childs.insert(i,window);
+}
+
+void CWindow::clearAllChilds()
+{
+    childs.clear();
 }
