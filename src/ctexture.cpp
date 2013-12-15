@@ -10,6 +10,9 @@ void CTexture::loadFromFile(const char *fileName)
     QImage img;
     img.load(fileName);
     id=context->bindTexture(img);
+
+    width = img.width();
+    height = img.height();
 }
 
 void CTexture::draw(float posX, float posY)
