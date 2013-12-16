@@ -176,66 +176,26 @@ void CLandscape::getIntersectPosition(float mx, float my, float *pos)
 {
     float *cam_pos = camera->getPosition();
 
-    my = QApplication::activeWindow()->height() - my;
-    float tray[6];
-
-    float rotate = camera->getRotate();
-    float angle = -camera->getAngle();
-
-    qDebug() << "angle: " << angle;
+    my = QApplication::activeWindow()->height() - my -1;
 
     my = (-1.0f + (2.0f/QApplication::activeWindow()->height())*(my));
     mx = -(-1.0f + (2.0f/QApplication::activeWindow()->width())*(mx));
 
-    qDebug() << "mx: " << mx << " " << "my: " << my;
+    double vtan = tan(60.0f * PI/180.0f * 0.5f);
 
-    float sinv = sin(rotate * PI/180.0f);
-    float cosv = cos(rotate * PI/180.0f);
+    QVector3D rayStep(1.0f,
+                      mx*((float)QApplication::activeWindow()->width()/(float)QApplication::activeWindow()->height())*vtan,
+                      my*vtan);
 
-//    tray[0] = cosv*mx;
-//    tray[1] = sinv*mx;
-//    tray[2] = my;
+    QMatrix4x4 rot;
+    rot.rotate(camera->getAngle(),0.0,1.0,0.0);
 
-//    tray[3+0] = 0.5f * cosv - mx * sinv;
-//    tray[3+1] = mx * cosv + 0.5f * sinv;
-//    tray[3+2] = my;
+    QMatrix4x4 rot2;
+    rot2.rotate(camera->getRotate(),0.0,0.0,1.0);
 
-    tray[0] = 0;
-    tray[1] = mx;
-    tray[2] = my;
+    rayStep=rot2*(rot*rayStep);
 
-    tray[3+0] = 0.5;
-    tray[3+1] = mx;
-    tray[3+2] = my;
-
-//    tray[0] = 0;
-//    tray[1] = mx;
-//    tray[2] = my;
-
-//    tray[3+0] = 0+0.5f;
-//    tray[3+1] = mx;
-//    tray[3+2] = my;
-
-    sinv = sin(angle * PI/180.0f);
-    cosv = cos(angle * PI/180.0f);
-
-    float ray[6];
-
-    ray[0] = tray[0]*cosv-tray[2]*sinv + cam_pos[0];
-    ray[1] = tray[1] + cam_pos[1];
-    ray[2] = tray[0]*sinv+tray[2]*cosv + cam_pos[2];
-
-    ray[3+0] = tray[3+0]*cosv-tray[3+2]*sinv + cam_pos[0];
-    ray[3+1] = tray[3+1] + cam_pos[1];
-    ray[3+2] = tray[3+0]*sinv+tray[3+2]*cosv + cam_pos[2];
-
-    //ray[0] = tray[0]*cosv+;
-
-    qDebug() << "vector1: " << ray[0] << " " << ray[1] << " " << ray[2];
-    qDebug() << "vector1: " << ray[3+0] << " " << ray[3+1] << " " << ray[3+2];
-
-    QVector3D rayStep(ray[3+0]-ray[0],ray[3+1]-ray[1],ray[3+2]-ray[2]);
-    QVector3D rayStartPosition(ray[0],ray[1],ray[2]);
+    QVector3D rayStartPosition(cam_pos[0],cam_pos[1],cam_pos[2]);
     QVector3D rayPosition = rayStartPosition;
 
     QVector3D lastRayPosition = rayStartPosition;
@@ -267,9 +227,6 @@ void CLandscape::getIntersectPosition(float mx, float my, float *pos)
     pos[0] = collisionPoint.x();
     pos[1] = collisionPoint.y();
     pos[2] = height;
-
-    qDebug() << "res: " << pos[0] << " " << pos[1] << " " << pos[2];
-
 }
 
 void CLandscape::draw()

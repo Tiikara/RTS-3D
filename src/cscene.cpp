@@ -23,6 +23,7 @@ CScene::CScene():
     trees = new CTree*[1000000];
 
     selection.setScene(this);
+    commandVController.setSelection(&selection);
 }
 
 vec3f posPoint = {0};
