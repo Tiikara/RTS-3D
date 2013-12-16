@@ -27,6 +27,7 @@ CScene::CScene():
 }
 
 vec3f posPoint = {0};
+CPeasant *peasant;
 
 CScene::~CScene()
 {
@@ -43,12 +44,23 @@ void CScene::initializeGL()
     generateForests(trees,&countTrees,&landscape);
 
     commandVController.initializeGL();
+
+    CPeasant::initializeGL();
+
+    peasant = new CPeasant;
+    objects[0] = peasant;
+    peasant->setPosition(0,0,1);
+    peasant->setAnimation("дрова");
+    countObjects=1;
 }
 
 void CScene::draw()
 {
     camera.look();
     landscape.draw();
+
+    for(int i=0;i<countObjects;i++)
+        objects[i]->draw();
 
     for(int i=0;i<countTrees;i++)
         trees[i]->draw();
@@ -65,20 +77,40 @@ void CScene::update()
 {
     updateCells();
 
+    for(int i=0;i<countObjects;i++)
+        objects[i]->update();
+
     camera.update();
     landscape.update();
 
     commandVController.updateInterface();
 }
 
-Cell *CScene::getCellFromPosition(float x, float y)
+Cell *CScene::getCellFromPosition(float x, float y, int offsetRow, int offsetColumn)
 {
-    return &cells[ countCellsH * int((x+sizeWidth/2.0f)/sizeCellW) + int((y+sizeHeight/2.0f)/sizeCellH) ];
+    return &cells[ (countCellsH * int((x+sizeWidth/2.0f)/sizeCellW) + offsetRow) + int((y+sizeHeight/2.0f)/sizeCellH) + offsetColumn ];
 }
 
 void CScene::keyPressEvent(QKeyEvent *k)
 {
     camera.keyPressEvent(k);
+
+    if(k->key() == Qt::Key_1)
+        peasant->setAnimation("ходьба");
+    if(k->key() == Qt::Key_2)
+        peasant->setAnimation("дрова");
+    if(k->key() == Qt::Key_3)
+        peasant->setAnimation("атака");
+    if(k->key() == Qt::Key_4)
+        peasant->setAnimation("базовое стояние");
+    if(k->key() == Qt::Key_5)
+        peasant->setAnimation("стояние 2");
+    if(k->key() == Qt::Key_6)
+        peasant->setAnimation("стояние 3");
+    if(k->key() == Qt::Key_7)
+        peasant->setAnimation("критический ущерб");
+    if(k->key() == Qt::Key_8)
+        peasant->setAnimation("смерть");
 }
 
 void CScene::keyReleaseEvent(QKeyEvent *k)

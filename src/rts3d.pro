@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     cbutton.cpp \
     canimationobject.cpp \
     ccommandviewcontroller.cpp \
-    ctexture.cpp
+    ctexture.cpp \
+    cpeasant.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
@@ -56,7 +57,8 @@ HEADERS  += MainWindow.h \
     cbutton.h \
     canimationobject.h \
     ccommandviewcontroller.h \
-    ctexture.h
+    ctexture.h \
+    cpeasant.h
 
 OTHER_FILES += \
     shaders/water.vert \

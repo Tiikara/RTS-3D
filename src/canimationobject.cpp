@@ -2,33 +2,18 @@
 
 #include <QFile>
 
-CAnimationObject::CAnimationObject():
+CAnimationObject::CAnimationObject(IdObject _id, float _radius, CModel *_model, AnimationList *_animations):
+    CBaseObject(_id,_radius,_model),
+    animList(_animations),
     fCurrentFrame(0.0f),
     currAnimation(NULL),
     nextAnimation(NULL)
 {
 }
 
-void CAnimationObject::loadAnimationDesc(const char *fileName)
-{
-    QFile file(fileName);
-
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-
-    QTextStream stream(&file);
-
-    QStringList line;
-
-    while(!stream.atEnd())
-    {
-        line = stream.readLine().split(":");
-        animations->insert(line[0],new AnimationParam(line[1].toInt(),line[2].toInt(),line[3].toInt(),line[4].toInt()));
-    }
-}
-
 void CAnimationObject::setAnimation(const QString &animationName)
 {
-    nextAnimation = animations->value(animationName);
+    nextAnimation = animList->animations.value(animationName);
 
     if(currAnimation==NULL)
     {
@@ -39,7 +24,7 @@ void CAnimationObject::setAnimation(const QString &animationName)
 
 void CAnimationObject::update()
 {
-    fCurrentFrame += 0.1f;
+    fCurrentFrame += 0.2f;
     if(currAnimation==nextAnimation)
     {
         if((int)fCurrentFrame > currAnimation->loopEnd)
@@ -70,4 +55,22 @@ void CAnimationObject::update()
 void CAnimationObject::draw()
 {
     model->draw(fCurrentFrame);
+}
+
+
+void AnimationList::loadAnimationDesc(const char *fileName)
+{
+    QFile file(fileName);
+
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    QTextStream stream(&file);
+
+    QStringList line;
+
+    while(!stream.atEnd())
+    {
+        line = stream.readLine().split(":");
+        animations.insert(line[0],new AnimationParam(line[1].toInt(),line[2].toInt(),line[3].toInt(),line[4].toInt()));
+    }
 }

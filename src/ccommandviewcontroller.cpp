@@ -12,7 +12,7 @@ void CCommandViewController::initializeGL()
     butAttack.loadTextures("tex/butNormal.png","tex/butSelected.png","tex/butPressed.png");
     butDef.loadTextures("tex/butNormal.png","tex/butSelected.png","tex/butPressed.png");
 
-    peasantIcon.loadTexture("tex/butNormal.jpg");
+    peasantIcon.loadTexture("tex/peasant.png");
 
     baseInterface.setPosition(10,10);
 }
@@ -43,8 +43,8 @@ void CCommandViewController::updateInterface()
         switch(selection->getSelectedObjects()[0]->getId())
         {
         case IdObject::Peasant:
-            baseInterface.addChild(&butAttack,30,30);
-            baseInterface.addChild(&butDef,80,30);
+            baseInterface.addChild(&butAttack,300,30);
+            baseInterface.addChild(&butDef,420,30);
             baseInterface.addChild(&peasantIcon,0,0);
             break;
         }

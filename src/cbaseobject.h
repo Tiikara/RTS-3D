@@ -19,7 +19,7 @@ enum class CommandObject : int
 class CBaseObject
 {
 public:
-    CBaseObject();
+    CBaseObject(IdObject id, float radius, CModel *model);
 
     float *getPosition();
     float getRadiusObject();

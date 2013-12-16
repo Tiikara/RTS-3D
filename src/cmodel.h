@@ -13,7 +13,6 @@ public:
     CModel();
 
     void loadFromFile(const char *fileName, const char *fileNameTexture);
-    void loadAnimationDesc(const char *fileName);
 
     void initializeGL();
 

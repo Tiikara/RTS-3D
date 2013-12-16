@@ -20,10 +20,16 @@ struct AnimationParam
     int transitionEnd;
 };
 
+struct AnimationList
+{
+    void loadAnimationDesc(const char *fileName);
+    QHash<QString,AnimationParam*> animations;
+};
+
 class CAnimationObject : public CBaseObject
 {
 public:
-    CAnimationObject();
+    CAnimationObject(IdObject id, float radius, CModel *model, AnimationList *animations);
 
     void loadAnimationDesc(const char *fileName);
     void setAnimation(const QString &animationName);
@@ -31,7 +37,7 @@ public:
     virtual void update();
     virtual void draw();
 protected:
-    QHash<QString,AnimationParam*> *animations;
+    AnimationList *animList;
 private:
     float fCurrentFrame;
     AnimationParam *currAnimation;

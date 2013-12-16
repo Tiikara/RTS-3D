@@ -8,6 +8,8 @@
 #include "cselection.h"
 #include "ccommandviewcontroller.h"
 
+#include "cpeasant.h"
+
 struct Cell
 {
     int countObjects;
@@ -25,7 +27,7 @@ public:
     void draw();
     void update();
 
-    Cell *getCellFromPosition(float x, float y);
+    Cell *getCellFromPosition(float x, float y, int offsetRow = 0, int offsetColumn = 0);
     CLandscape *getLandscape() { return &landscape; }
 
     void keyPressEvent(QKeyEvent *k);
