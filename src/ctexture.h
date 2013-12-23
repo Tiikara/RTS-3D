@@ -2,6 +2,7 @@
 #define CTEXTURE_H
 
 #include <QtOpenGL>
+#include "GL/glu.h"
 
 class CTexture
 {
@@ -12,8 +13,11 @@ public:
 
     void draw(float posX, float posY);
 
-    float getWidth() { return width; }
-    float getHeight() { return height; }
+    static void begin2DMode();
+    static void end2DMode();
+
+    float getWidth() const { return width; }
+    float getHeight() const { return height; }
 private:
     GLuint id;
     float width;

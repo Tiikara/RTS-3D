@@ -39,7 +39,9 @@ SOURCES += main.cpp\
     canimationobject.cpp \
     ccommandviewcontroller.cpp \
     ctexture.cpp \
-    cpeasant.cpp
+    cpeasant.cpp \
+    cunit.cpp \
+    cmouseevent.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
@@ -58,7 +60,9 @@ HEADERS  += MainWindow.h \
     canimationobject.h \
     ccommandviewcontroller.h \
     ctexture.h \
-    cpeasant.h
+    cpeasant.h \
+    cunit.h \
+    cmouseevent.h
 
 OTHER_FILES += \
     shaders/water.vert \

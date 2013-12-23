@@ -128,27 +128,6 @@ bool CWindow::mousePositionEvent(float mouseX, float mouseY)
     return positionEvent(mouseX,mouseY);
 }
 
-void CWindow::begin2DMode()
-{
-    glDisable(GL_DEPTH_TEST);
-
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    gluOrtho2D( 0,QApplication::activeWindow()->width(),0,QApplication::activeWindow()->height());
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-}
-
-void CWindow::end2DMode()
-{
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-
-    glEnable(GL_DEPTH_TEST);
-}
-
 bool CWindow::pressEvent(float mouseX, float mouseY, bool leftMouse, bool rightMouse)
 {
     for(int i=0;i<childs.size();i++)

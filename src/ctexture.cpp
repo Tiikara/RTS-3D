@@ -1,5 +1,7 @@
 #include "ctexture.h"
 
+#include "MainWindow.h"
+
 CTexture::CTexture()
 {
 }
@@ -30,4 +32,25 @@ void CTexture::draw(float posX, float posY)
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
+}
+
+void CTexture::begin2DMode()
+{
+    glDisable(GL_DEPTH_TEST);
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D( 0,MainWindow::getWidth(),0,MainWindow::getHeight());
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
+void CTexture::end2DMode()
+{
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+
+    glEnable(GL_DEPTH_TEST);
 }

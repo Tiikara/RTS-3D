@@ -2,9 +2,13 @@
 
 #include <QTimer>
 
+MainWindow *mainWindow;
+
 MainWindow::MainWindow(QWidget *parent)
     : QGLWidget(parent)
 {
+    mainWindow = this;
+
     setMouseTracking(true);
 
     QTimer *timer = new QTimer(this);
@@ -12,6 +16,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(updateLogic()));
     timer->start(16);
 }
+
+float MainWindow::getWidth()
+{
+    return mainWindow->width();
+}
+
+float MainWindow::getHeight()
+{
+    return mainWindow->height();
+}
+
 void MainWindow::initializeGL()
 {
     initExtensions();
@@ -26,7 +41,11 @@ void MainWindow::initializeGL()
 
  void MainWindow::mouseMoveEvent(QMouseEvent *me)
  {
-     scene.mouseMoveEvent(me);
+     mouseEvent.fx = me->x();
+     mouseEvent.fy = height() - me->y();
+     mouseEvent.button = me->buttons();
+
+     scene.mouseMoveEvent(&mouseEvent);
  }
 
  void MainWindow::mousePostitionEvent()
@@ -68,13 +87,20 @@ void MainWindow::paintGL()
 
 void MainWindow::mousePressEvent(QMouseEvent *me)
 {
-    scene.mousePressEvent(me);
+    mouseEvent.fx = me->x();
+    mouseEvent.fy = height() - me->y();
+    mouseEvent.button = me->buttons();
+
+    scene.mousePressEvent(&mouseEvent);
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *me)
 {
-    scene.mouseReleaseEvent(me);
+    mouseEvent.fx = me->x();
+    mouseEvent.fy = height() - me->y();
+    mouseEvent.button = me->buttons();
 
+    scene.mouseReleaseEvent(&mouseEvent);
 }
 
 void MainWindow::updateLogic()

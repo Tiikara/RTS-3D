@@ -99,7 +99,7 @@ float NoiseSum(in int an, in float A, in float FR, in float x, in float y, out v
 }
 void main(void)
 {
-    vec4 vpos=gl_Vertex;
+    vec4 vpos=gl_Vertex + vec4(view_pos.xy, 0.0, 0.0);
     vpos.z=NoiseSum(10,amplit,freq,vpos.x,vpos.y,n);
 
     h=vpos.z;

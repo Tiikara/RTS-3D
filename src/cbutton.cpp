@@ -8,10 +8,10 @@
 #include <QDebug>
 
 CButton::CButton():
-    selected(false),
-    pressed(false),
     selectedbuf(false),
     pressedbuf(false),
+    selected(false),
+    pressed(false),
     active(false)
 {
 }
@@ -107,7 +107,7 @@ bool CButton::moveEvent(float, float, bool, bool)
     return true;
 }
 
-bool CButton::positionEvent(float x, float y)
+bool CButton::positionEvent(float, float)
 {
    active=true;
 

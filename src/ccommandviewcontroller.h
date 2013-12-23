@@ -5,6 +5,9 @@
 #include "cbutton.h"
 #include "cselection.h"
 #include "cbaseobject.h"
+#include "clandscape.h"
+
+#include "cmouseevent.h"
 
 class CCommandViewController : public  QObject
 {
@@ -16,16 +19,18 @@ public:
     void initializeGL();
 
     void setSelection(CSelection *selection);
+    void setLandscape(CLandscape *landscape);
 
     void drawInterface();
     void updateInterface();
 
-    void mouseMoveEvent(QMouseEvent *me);
-    void mousePressEvent(QMouseEvent *me);
-    void mouseReleaseEvent(QMouseEvent *me);
+    void mouseMoveEvent(CMouseEvent *me);
+    void mousePressEvent(CMouseEvent *me);
+    void mouseReleaseEvent(CMouseEvent *me);
     void mousePositionEvent(QPoint *p);
 private:
     CSelection *selection;
+    CLandscape *landscape;
 
     CWindow baseInterface;
     CButton butAttack;

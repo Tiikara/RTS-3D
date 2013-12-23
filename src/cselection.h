@@ -1,8 +1,12 @@
 #ifndef CSELECTION_H
 #define CSELECTION_H
 
+#include <QtOpenGL>
+
 #include "cbaseobject.h"
 #include "clandscape.h"
+
+#include "cmouseevent.h"
 
 class CScene;
 
@@ -17,19 +21,29 @@ public:
     void setScene(CScene *scene);
 
     void update();
-    void draw();
+    void draw2d();
 
     bool isUpdated();
 
-    void mousePressEvent(QMouseEvent *me);
-    void mouseReleaseEvent(QMouseEvent *me);
-    void mouseMoveEvent(QMouseEvent *me);
+    void mousePressEvent(CMouseEvent *me);
+    void mouseReleaseEvent(CMouseEvent *me);
+    void mouseMoveEvent(CMouseEvent *me);
 private:
+    void singleSelect(CMouseEvent *me);
+    void groupSelect(CMouseEvent *me);
+
     CScene *scene;
 
     int countSelected;
-    CBaseObject *selectedObjects[20];
+    CBaseObject *selectedObjects[1000];
 
+    bool bMousePressed;
+    bool bGroupSelection;
+
+    float posStart[2];
+    float posEnd[2];
+
+    bool bCheckerUpdated;
     bool bUpdated;
 };
 

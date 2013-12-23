@@ -35,9 +35,6 @@ public:
     bool mouseMoveEvent(float mouseX, float mouseY, bool leftMouse, bool rightMouse);
     bool mousePositionEvent(float mouseX, float mouseY);
 
-    static void begin2DMode();
-    static void end2DMode();
-
     void addChild( CWindow *window, float posX, float posY, int priority = 0 );
     void clearAllChilds();
 protected:

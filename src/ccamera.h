@@ -10,6 +10,8 @@
 #include "gl_ext/libExt.h"
 #include "clandscape.h"
 
+#include "cmouseevent.h"
+
 typedef float vec3f[3];
 typedef float* pvec3f;
 
@@ -29,7 +31,7 @@ public:
 
     void keyPressEvent(QKeyEvent *k);
     void keyReleaseEvent(QKeyEvent *k);
-    void mouseMoveEvent(QMouseEvent *me);
+    void mouseMoveEvent(CMouseEvent *me);
     void wheelEvent(QWheelEvent *we);
 private:
 

@@ -12,12 +12,22 @@
 
 #include "cscene.h"
 
+#include "cmouseevent.h"
+
 class MainWindow : public QGLWidget
 {
     Q_OBJECT
 
+public:
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+    static float getWidth();
+    static float getHeight();
 private:
     CScene scene;
+
+    CMouseEvent mouseEvent;
 protected:
     void initializeGL();
     void genTexture();
@@ -32,9 +42,6 @@ protected:
     void keyReleaseEvent(QKeyEvent *);
 protected slots:
     void updateLogic();
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
 };
 
 #endif // MAINWINDOW_H

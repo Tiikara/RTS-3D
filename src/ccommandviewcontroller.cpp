@@ -22,13 +22,14 @@ void CCommandViewController::setSelection(CSelection *selection)
     this->selection = selection;
 }
 
+void CCommandViewController::setLandscape(CLandscape *landscape)
+{
+    this->landscape = landscape;
+}
+
 void CCommandViewController::drawInterface()
 {
-    CWindow::begin2DMode();
-
     baseInterface.draw();
-
-    CWindow::end2DMode();
 }
 
 void CCommandViewController::updateInterface()
@@ -51,25 +52,29 @@ void CCommandViewController::updateInterface()
     }
 }
 
-void CCommandViewController::mouseMoveEvent(QMouseEvent *me)
+void CCommandViewController::mouseMoveEvent(CMouseEvent *me)
 {
-    baseInterface.mouseMoveEvent(me->x(),QApplication::activeWindow()->height()-me->y(),me->buttons()==Qt::LeftButton? true : false,me->buttons()==Qt::RightButton? true : false);
+    baseInterface.mouseMoveEvent(me->x(),me->y(),me->buttons()==Qt::LeftButton,me->buttons()==Qt::RightButton);
 }
 
-void CCommandViewController::mousePressEvent(QMouseEvent *me)
+void CCommandViewController::mousePressEvent(CMouseEvent *me)
 {
-    baseInterface.mousePressEvent(me->x(),QApplication::activeWindow()->height()-me->y(),me->buttons()==Qt::LeftButton? true : false,me->buttons()==Qt::RightButton? true : false);
+    float pos[3];
+
+    landscape->getIntersectPosition(me->x(),me->y(),pos);
+
+    baseInterface.mousePressEvent(me->x(),me->y(),me->buttons()==Qt::LeftButton,me->buttons()==Qt::RightButton);
 
     int count = selection->getCountSelected();
     CBaseObject **objects = selection->getSelectedObjects();
 
     for(int i=0;i<count;i++)
-        objects[i]->requestCommand(CommandObject::Move);
+        objects[i]->requestCommand(CommandObject::Move,pos[0],pos[1]);
 }
 
-void CCommandViewController::mouseReleaseEvent(QMouseEvent *me)
+void CCommandViewController::mouseReleaseEvent(CMouseEvent *me)
 {
-    baseInterface.mouseReleaseEvent(me->x(),QApplication::activeWindow()->height()-me->y(),me->buttons()==Qt::LeftButton? true : false,me->buttons()==Qt::RightButton? true : false);
+    baseInterface.mouseReleaseEvent(me->x(),me->y(),me->buttons()==Qt::LeftButton,me->buttons()==Qt::RightButton);
 }
 
 void CCommandViewController::mousePositionEvent(QPoint *p)

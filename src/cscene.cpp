@@ -24,6 +24,7 @@ CScene::CScene():
 
     selection.setScene(this);
     commandVController.setSelection(&selection);
+    commandVController.setLandscape(&landscape);
 }
 
 vec3f posPoint = {0};
@@ -50,7 +51,6 @@ void CScene::initializeGL()
     peasant = new CPeasant;
     objects[0] = peasant;
     peasant->setPosition(0,0,1);
-    peasant->setAnimation("дрова");
     countObjects=1;
 }
 
@@ -70,7 +70,12 @@ void CScene::draw()
     glVertex3fv(posPoint);
     glEnd();
 
+    CTexture::begin2DMode();
+
+    selection.draw2d();
     commandVController.drawInterface();
+
+    CTexture::end2DMode();
 }
 
 void CScene::update()
@@ -89,6 +94,23 @@ void CScene::update()
 Cell *CScene::getCellFromPosition(float x, float y, int offsetRow, int offsetColumn)
 {
     return &cells[ (countCellsH * int((x+sizeWidth/2.0f)/sizeCellW) + offsetRow) + int((y+sizeHeight/2.0f)/sizeCellH) + offsetColumn ];
+}
+
+void CScene::getCellsFromRectangle(Cell **buf, int *count, float startX, float startY, float endX, float endY)
+{
+    int startW = int((startX+sizeWidth/2.0f)/sizeCellW) - 1;
+    int startH = int((startY+sizeHeight/2.0f)/sizeCellH) - 1;
+
+    int endW = int((endX+sizeWidth/2.0f)/sizeCellW) + 1;
+    int endH = int((endY+sizeHeight/2.0f)/sizeCellH) + 1;
+
+    *count = 0;
+
+    for(int i=startW;i<endW;i++)
+        for(int j=startH;j<endH;j++)
+        {
+            buf[(*count)++] = &cells[ countCellsH * i + j ];
+        }
 }
 
 void CScene::keyPressEvent(QKeyEvent *k)
@@ -118,7 +140,7 @@ void CScene::keyReleaseEvent(QKeyEvent *k)
     camera.keyReleaseEvent(k);
 }
 
-void CScene::mouseMoveEvent(QMouseEvent *me)
+void CScene::mouseMoveEvent(CMouseEvent *me)
 {
     camera.mouseMoveEvent(me);
 
@@ -127,11 +149,11 @@ void CScene::mouseMoveEvent(QMouseEvent *me)
     commandVController.mouseMoveEvent(me);
 }
 
-void CScene::mousePressEvent(QMouseEvent *me)
+void CScene::mousePressEvent(CMouseEvent *me)
 {
     commandVController.mousePressEvent(me);
 
-    if(me->button() == Qt::LeftButton)
+    if(me->buttons() == Qt::LeftButton)
     {
         landscape.getIntersectPosition(me->x(),me->y(),posPoint);
     }
@@ -139,7 +161,7 @@ void CScene::mousePressEvent(QMouseEvent *me)
     selection.mousePressEvent(me);
 }
 
-void CScene::mouseReleaseEvent(QMouseEvent *me)
+void CScene::mouseReleaseEvent(CMouseEvent *me)
 {
     selection.mouseReleaseEvent(me);
 

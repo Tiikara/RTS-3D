@@ -1,6 +1,8 @@
 #include "ccamera.h"
 #include "math.h"
 
+#include "MainWindow.h"
+
 #define PI 3.14159265f
 
 enum CAM_KEYS {Key_Up, Key_Down, Key_Left, Key_Right};
@@ -59,13 +61,13 @@ void CCamera::keyReleaseEvent(QKeyEvent *k)
     if(k->key() == Qt::Key_Right) pressedKeys[Key_Right] = false;
 }
 
-void CCamera::mouseMoveEvent(QMouseEvent *me)
+void CCamera::mouseMoveEvent(CMouseEvent *me)
 {
     int xp=me->x();
     if (old_mx!=-100)
     {
         if (me->buttons()==Qt::MiddleButton)
-            rotate+=((xp-old_mx)/QApplication::activeWindow()->width())*90.0f;
+            rotate+=((xp-old_mx)/MainWindow::getWidth())*90.0f;
     }
     old_mx=xp;
 

@@ -1,9 +1,10 @@
 #include "cbaseobject.h"
 
 CBaseObject::CBaseObject(IdObject _id, float _radius, CModel *_model):
+    model(_model),
     id(_id),
-    radius(_radius),
-    model(_model)
+    radius(_radius)
+
 {
     for(int i=0;i<3;i++)
         pos[0] = 0.0f;
@@ -33,4 +34,14 @@ void CBaseObject::setPosition(float x, float y, float z)
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
+    model->setPosition(x,y,z);
 }
+
+void CBaseObject::setRotate(float angle)
+{
+    rotateAngle = angle;
+    model->setRotateParam(angle,0.0f,0.0f,1.0f);
+}
+
+void CBaseObject::requestCommand(CommandObject,float,float, CBaseObject*)
+{}

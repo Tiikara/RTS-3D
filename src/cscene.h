@@ -10,6 +10,8 @@
 
 #include "cpeasant.h"
 
+#include "cmouseevent.h"
+
 struct Cell
 {
     int countObjects;
@@ -28,13 +30,15 @@ public:
     void update();
 
     Cell *getCellFromPosition(float x, float y, int offsetRow = 0, int offsetColumn = 0);
+    void getCellsFromRectangle(Cell **buf, int *count, float startX, float startY, float endX, float endY);
+
     CLandscape *getLandscape() { return &landscape; }
 
     void keyPressEvent(QKeyEvent *k);
     void keyReleaseEvent(QKeyEvent *k);
-    void mouseMoveEvent(QMouseEvent *me);
-    void mousePressEvent(QMouseEvent *me);
-    void mouseReleaseEvent(QMouseEvent *me);
+    void mouseMoveEvent(CMouseEvent *me);
+    void mousePressEvent(CMouseEvent *me);
+    void mouseReleaseEvent(CMouseEvent *me);
     void mousePositionEvent(QPoint *p);
     void wheelEvent(QWheelEvent *we);
 private:

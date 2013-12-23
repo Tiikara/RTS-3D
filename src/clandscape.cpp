@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "ccamera.h"
+#include "MainWindow.h"
 
 #define PI 3.14159265f
 
@@ -176,15 +177,18 @@ void CLandscape::getIntersectPosition(float mx, float my, float *pos)
 {
     float *cam_pos = camera->getPosition();
 
-    my = QApplication::activeWindow()->height() - my -1;
+    float widthW = MainWindow::getWidth();
+    float heightW = MainWindow::getHeight();
 
-    my = (-1.0f + (2.0f/QApplication::activeWindow()->height())*(my));
-    mx = -(-1.0f + (2.0f/QApplication::activeWindow()->width())*(mx));
+    my = my - 1;
+
+    my = (-1.0f + (2.0f/heightW)*(my));
+    mx = -(-1.0f + (2.0f/widthW)*(mx));
 
     double vtan = tan(60.0f * PI/180.0f * 0.5f);
 
     QVector3D rayStep(1.0f,
-                      mx*((float)QApplication::activeWindow()->width()/(float)QApplication::activeWindow()->height())*vtan,
+                      mx*(widthW/heightW)*vtan,
                       my*vtan);
 
     QMatrix4x4 rot;
