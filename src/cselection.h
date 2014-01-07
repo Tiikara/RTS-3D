@@ -15,12 +15,16 @@ class CSelection
 public:
     CSelection();
 
+    void initGL();
+
     int getCountSelected() { return countSelected; }
     CBaseObject **getSelectedObjects() { return selectedObjects; }
 
     void setScene(CScene *scene);
 
     void update();
+
+    void draw();
     void draw2d();
 
     bool isUpdated();
@@ -33,6 +37,8 @@ private:
     void groupSelect(CMouseEvent *me);
 
     CScene *scene;
+
+    GLuint idTex;
 
     int countSelected;
     CBaseObject *selectedObjects[1000];

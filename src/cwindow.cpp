@@ -8,6 +8,8 @@
 CWindow::CWindow():
     tex(NULL)
 {
+    for(int i=0;i<2;i++)
+        pos[i] = 0.0f;
 }
 
 CWindow::~CWindow()

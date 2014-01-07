@@ -34,7 +34,6 @@ public:
     void mouseMoveEvent(CMouseEvent *me);
     void wheelEvent(QWheelEvent *we);
 private:
-
     void updateAngle();
 
     CLandscape *landscape;

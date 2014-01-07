@@ -18,6 +18,12 @@ struct Cell
     CBaseObject **objects;
 };
 
+struct CellTree
+{
+    int countTrees;
+    CTree **objects;
+};
+
 class CScene
 {
 public:
@@ -29,10 +35,16 @@ public:
     void draw();
     void update();
 
+    static CScene *sharedScene();
+
     Cell *getCellFromPosition(float x, float y, int offsetRow = 0, int offsetColumn = 0);
+    CellTree *getCellTreeFromPosition(float x, float y, int offsetRow = 0, int offsetColumn = 0);
+
     void getCellsFromRectangle(Cell **buf, int *count, float startX, float startY, float endX, float endY);
 
     CLandscape *getLandscape() { return &landscape; }
+
+    bool isFreeRegion(float x, float y, float radius, CBaseObject *expObj);
 
     void keyPressEvent(QKeyEvent *k);
     void keyReleaseEvent(QKeyEvent *k);
@@ -43,6 +55,7 @@ public:
     void wheelEvent(QWheelEvent *we);
 private:
     void updateCells();
+    void updateCellsTree();
 
     CLandscape landscape;
     CCamera camera;
@@ -54,11 +67,16 @@ private:
     CTree **trees;
     int countTrees;
 
+    CTree **treesBuffer;
+    int countTreesBuffer;
+
     CBaseObject **objects;
     int countObjects;
 
     CBaseObject **objectsBuffer;
     int countObjectsBuffer;
+
+    CellTree *cellsTree;
 
     Cell *cells;
     int countCellsW;

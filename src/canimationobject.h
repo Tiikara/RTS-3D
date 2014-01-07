@@ -31,7 +31,6 @@ class CAnimationObject : public CBaseObject
 public:
     CAnimationObject(IdObject id, float radius, CModel *model, AnimationList *animations);
 
-    void loadAnimationDesc(const char *fileName);
     void setAnimation(const QString &animationName);
 
     virtual void update();

@@ -19,6 +19,16 @@ void CTree::setPosition(float x, float y, float z)
     pos[2] = z;
 }
 
+float *CTree::getPosition()
+{
+    return pos;
+}
+
+float CTree::getRadiusObject()
+{
+    return 0.5f;
+}
+
 void CTree::initializeGLModel()
 {
     model = new CModel;

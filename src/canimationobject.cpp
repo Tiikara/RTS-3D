@@ -54,9 +54,10 @@ void CAnimationObject::update()
 
 void CAnimationObject::draw()
 {
+    model->setPosition(pos);
+    model->setRotateParam(rotateAngle,0.0f,0.0f,1.0f);
     model->draw(fCurrentFrame);
 }
-
 
 void AnimationList::loadAnimationDesc(const char *fileName)
 {

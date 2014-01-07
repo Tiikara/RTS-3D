@@ -22,9 +22,6 @@ protected:
     virtual bool moveEvent(float mouseX, float mouseY, bool leftMouse, bool rightMouse);
     virtual bool positionEvent(float mouseX, float mouseY);
 private:
-    bool selectedbuf;
-    bool pressedbuf;
-
     bool selected;
     bool pressed;
 

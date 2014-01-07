@@ -61,6 +61,9 @@ void CCommandViewController::mousePressEvent(CMouseEvent *me)
 {
     float pos[3];
 
+    if(me->buttons() != Qt::LeftButton)
+        return;
+
     landscape->getIntersectPosition(me->x(),me->y(),pos);
 
     baseInterface.mousePressEvent(me->x(),me->y(),me->buttons()==Qt::LeftButton,me->buttons()==Qt::RightButton);

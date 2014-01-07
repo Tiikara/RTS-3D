@@ -8,8 +8,6 @@
 #include <QDebug>
 
 CButton::CButton():
-    selectedbuf(false),
-    pressedbuf(false),
     selected(false),
     pressed(false),
     active(false)

@@ -12,6 +12,9 @@ public:
     void draw();
 
     void setPosition(float x, float y, float z);
+    float *getPosition();
+
+    float getRadiusObject();
 
     static void initializeGLModel();
 private:

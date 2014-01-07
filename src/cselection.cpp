@@ -13,6 +13,14 @@ CSelection::CSelection():
 {
 }
 
+void CSelection::initGL()
+{
+    QGLContext *context = const_cast<QGLContext*>(QGLContext::currentContext());
+    QImage img;
+    img.load("tex/select.png");
+    idTex=context->bindTexture(img);
+}
+
 void CSelection::setScene(CScene *scene)
 {
     this->scene = scene;
@@ -30,6 +38,32 @@ void CSelection::update()
     {
         bCheckerUpdated = true;
     }
+}
+
+void CSelection::draw()
+{
+    glEnable(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, idTex);
+
+    float *pos;
+    float size;
+
+    for(int i=0;i<countSelected;i++)
+    {
+        pos = selectedObjects[i]->getPosition();
+        size = selectedObjects[i]->getRadiusObject();
+
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(pos[0]-size,pos[1]-size,pos[2]);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(pos[0]+size,pos[1]-size,pos[2]);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(pos[0]+size,pos[1]+size,pos[2]);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(pos[0]-size,pos[1]+size,pos[2]);
+        glEnd();
+    }
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void CSelection::draw2d()
