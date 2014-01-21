@@ -4,6 +4,8 @@
 typedef float vec3f[3];
 #include "cmodel.h"
 
+#include "ccursorcontroller.h"
+
 enum class IdObject : int
 {
     Peasant
@@ -31,6 +33,7 @@ public:
     float getRotateAngle() { return rotateAngle; }
 
     IdObject getId(){ return id; }
+    virtual IdCursor getIdCursor(CBaseObject * obj);
 
     virtual void requestCommand(CommandObject command,float x = 0, float y = 0,CBaseObject *obj = NULL);
 

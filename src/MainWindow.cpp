@@ -27,6 +27,11 @@ float MainWindow::getHeight()
     return mainWindow->height();
 }
 
+QPoint MainWindow::getCursorPosition()
+{
+    return QPoint(mainWindow->mouseEvent.x(),mainWindow->mouseEvent.y());
+}
+
 void MainWindow::initializeGL()
 {
     initExtensions();

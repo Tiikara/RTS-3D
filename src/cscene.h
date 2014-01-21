@@ -7,6 +7,7 @@
 #include "cbaseobject.h"
 #include "cselection.h"
 #include "ccommandviewcontroller.h"
+#include "ccursorcontroller.h"
 
 #include "cpeasant.h"
 
@@ -43,6 +44,7 @@ public:
     void getCellsFromRectangle(Cell **buf, int *count, float startX, float startY, float endX, float endY);
 
     CLandscape *getLandscape() { return &landscape; }
+    CSelection *getSelection() { return &selection; }
 
     bool isFreeRegion(float x, float y, float radius, CBaseObject *expObj);
 
@@ -63,6 +65,7 @@ private:
     CSelection selection;
 
     CCommandViewController commandVController;
+    CCursorController cursorController;
 
     CTree **trees;
     int countTrees;

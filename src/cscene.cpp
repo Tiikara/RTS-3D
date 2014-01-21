@@ -33,6 +33,8 @@ CScene::CScene():
     selection.setScene(this);
     commandVController.setSelection(&selection);
     commandVController.setLandscape(&landscape);
+
+    cursorController.setScene(this);
 }
 
 vec3f posPoint = {0};
@@ -86,6 +88,8 @@ void CScene::draw()
     selection.draw2d();
     commandVController.drawInterface();
 
+    cursorController.draw();
+
     CTexture::end2DMode();
 }
 
@@ -99,6 +103,7 @@ void CScene::update()
     camera.update();
     landscape.update();
 
+    cursorController.update();
     commandVController.updateInterface();
 }
 

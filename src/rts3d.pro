@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     ctexture.cpp \
     cpeasant.cpp \
     cunit.cpp \
-    cmouseevent.cpp
+    cmouseevent.cpp \
+    ccursorcontroller.cpp
 
 HEADERS  += MainWindow.h \
     gl_ext/libExt.h \
@@ -62,7 +63,8 @@ HEADERS  += MainWindow.h \
     ctexture.h \
     cpeasant.h \
     cunit.h \
-    cmouseevent.h
+    cmouseevent.h \
+    ccursorcontroller.h
 
 OTHER_FILES += \
     shaders/water.vert \

@@ -24,6 +24,8 @@ public:
 
     static float getWidth();
     static float getHeight();
+
+    static QPoint getCursorPosition();
 private:
     CScene scene;
 

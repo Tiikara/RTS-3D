@@ -42,6 +42,11 @@ void CBaseObject::setRotate(float angle)
     model->setRotateParam(angle,0.0f,0.0f,1.0f);
 }
 
+IdCursor CBaseObject::getIdCursor(CBaseObject *obj)
+{
+    return IdCursor::MOVE;
+}
+
 void CBaseObject::requestCommand(CommandObject,float,float, CBaseObject*)
 {}
 
